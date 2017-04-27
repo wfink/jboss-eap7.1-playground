@@ -40,8 +40,13 @@ public class SimpleBean implements Simple {
     SessionContext context;
 
 
-    public String getJBossNodeName() {
-        return System.getProperty("jboss.node.name");
+    @Override
+    @PermitAll
+    public String getJBossServerName() {
+        Principal caller = context.getCallerPrincipal();
+        LOGGER.info("[" + caller.getName() + "] getJBossServerName");
+
+        return System.getProperty("jboss.server.name");
     }
 
     @Override
@@ -61,6 +66,7 @@ public class SimpleBean implements Simple {
     }
     
     @RolesAllowed({"Admin"})
+    @Override
     public void logText4RoleAdmin(String text) {
         Principal caller = context.getCallerPrincipal();
         LOGGER.info("[" + caller.getName() + "] " + text);

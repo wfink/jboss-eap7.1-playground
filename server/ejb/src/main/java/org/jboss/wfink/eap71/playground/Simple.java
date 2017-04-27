@@ -25,4 +25,18 @@ public interface Simple {
      * @param text This text will be logged in the application
      */
     void logText(String text);
+
+    /**
+     * Return the name of the Wildfly/EAP instance where deployed.
+     * No security needed.
+     * 
+     * @return jboss.server.name
+     */
+	String getJBossServerName();
+
+	/**
+	 * Invocation only allowed with role = Admin
+	 * @param text
+	 */
+	void logText4RoleAdmin(String text);
 }
