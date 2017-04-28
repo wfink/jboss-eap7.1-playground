@@ -39,4 +39,6 @@ public interface Simple {
 	 * @param text
 	 */
 	void logText4RoleAdmin(String text);
+
+	void checkApplicationUser(String userName);
 }

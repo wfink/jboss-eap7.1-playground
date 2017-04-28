@@ -35,7 +35,7 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 @Stateless
 @SecurityDomain("other")
 public class SimpleBean implements Simple {
-    private static final Logger LOGGER = Logger.getLogger(SimpleBean.class.getName());
+    private static final Logger log = Logger.getLogger(SimpleBean.class.getName());
     @Resource
     SessionContext context;
 
@@ -44,7 +44,7 @@ public class SimpleBean implements Simple {
     @PermitAll
     public String getJBossServerName() {
         Principal caller = context.getCallerPrincipal();
-        LOGGER.info("[" + caller.getName() + "] getJBossServerName");
+        log.info("[" + caller.getName() + "] getJBossServerName");
 
         return System.getProperty("jboss.server.name");
     }
@@ -53,14 +53,14 @@ public class SimpleBean implements Simple {
     @PermitAll
     public void logText(String text) {
         Principal caller = context.getCallerPrincipal();
-        LOGGER.info("[" + caller.getName() + "] " + text);
+        log.info("[" + caller.getName() + "] " + text);
 
         return;
     }
     
     public void logTextSecured(String text) {
         Principal caller = context.getCallerPrincipal();
-        LOGGER.info("[" + caller.getName() + "] " + text);
+        log.info("[" + caller.getName() + "] " + text);
 
         return;
     }
@@ -69,8 +69,23 @@ public class SimpleBean implements Simple {
     @Override
     public void logText4RoleAdmin(String text) {
         Principal caller = context.getCallerPrincipal();
-        LOGGER.info("[" + caller.getName() + "] " + text);
+        log.info("[" + caller.getName() + "] " + text);
 
         return;
     }
+    
+    //@RolesAllowed({"Application"})
+    @PermitAll
+    @Override
+    public void checkApplicationUser(String userName) {
+        Principal caller = context.getCallerPrincipal();
+        
+        if(!userName.equals(caller.getName())) {
+        	throw new RuntimeException("Given user name '" + userName + "' not equal to real use name '" + caller.getName() + "'");
+        }else{
+        	log.fine("Try to invoke remote SimpleBean with user '" + userName + "'");
+        }
+        return;
+    }
+
 }

@@ -20,50 +20,41 @@
 
     <parent>
         <groupId>org.jboss.wfink.eap-71.playground</groupId>
-        <artifactId>EAP71-PLAYGROUND-parent</artifactId>
+        <artifactId>EAP71-PLAYGROUND-MainServer</artifactId>
         <version>7.1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>eap71-playground-client</artifactId>
-    <packaging>jar</packaging>
-    <name>JBoss EAP 7.1 Playground: client applications</name>
+    <artifactId>eap71-playground-mainServer-ejb</artifactId>
+    <packaging>ejb</packaging>
+    <name>JBoss EAP 7.1 Playground: main server application EJB</name>
 
     <dependencies>
         <!-- Import the EJB API, we use provided scope as the API is included in JBoss EAP -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+            <scope>provided</scope>
         </dependency>
-        <!-- client API for wildfly or EAP7.1+
-             Artifact "wildfly-client-all" will import the uber-jar
-        -->
         <dependency>
-            <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-naming-client</artifactId>
-            <scope>compile</scope>
+            <groupId>org.jboss.spec.javax.annotation</groupId>
+            <artifactId>jboss-annotations-api_1.2_spec</artifactId>
+            <scope>provided</scope>
         </dependency>
-        <!-- needed, otherwise no NIO provider found -->
         <dependency>
-            <groupId>org.jboss.xnio</groupId>
-            <artifactId>xnio-nio</artifactId>
-            <scope>runtime</scope>
+            <groupId>org.jboss.ejb3</groupId>
+            <artifactId>jboss-ejb3-ext-api</artifactId>
         </dependency>
-        <!-- needed, otherwise javax.naming.OperationNotSupportedException: WFNAM00026: No provider for found for URI: ejb  -->
-        <dependency>
-            <groupId>org.jboss</groupId>
-            <artifactId>jboss-ejb-client</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>eap71-playground-server-ejb</artifactId>
-            <type>ejb-client</type>
+            <type>ejb</type>
             <version>${project.version}</version>
         </dependency>
+        <!-- needed because references for WildFlyInitialContextFactory are used -->
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>eap71-playground-mainServer-ejb</artifactId>
-            <type>ejb-client</type>
-            <version>${project.version}</version>
+        	<groupId>org.wildfly</groupId>
+        	<artifactId>wildfly-naming-client</artifactId>
+        	<scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -72,9 +63,11 @@
         <plugins>
             <plugin>  <!-- must include ejb-plug-in to change the EJB version from 2.1 to 3.1 -->
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>${version.jar.plugin}</version>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <version>${version.ejb.plugin}</version>
                 <configuration>
+                    <ejbVersion>3.1</ejbVersion>
+                    <generateClient>true</generateClient>
                     <archive>
                         <addMavenDescriptor>false</addMavenDescriptor>
                     </archive>

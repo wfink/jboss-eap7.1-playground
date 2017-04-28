@@ -20,5 +20,17 @@ Start the instance  depend on the test with standalone or standalone-ha profile 
    bin/standalone.sh -Djboss.server.base.dir=node2 -Djboss.node.name=node2 -Djboss.server.name=node2 -Djboss.socket.binding.port-offset=100 -c standalone.xml
 
 
+To test server-server communication add another node
+
+copy standalone folder to mainNode and add another user
+
+    bin/add-user.sh -a -u delegateUser -p delegateUser -g Application -sc mainNode/configuration
+    bin/add-user.sh -a -u delegateUserR -p delegateUser -g Application -sc node1/configuration
+    bin/add-user.sh -a -u delegateUserR -p delegateUser -g Application -sc node2/configuration
+
+Start the instance:
+
+    bin/standalone.sh -Djboss.server.base.dir=mainNode -Djboss.node.name=mainNode -Djboss.server.name=mainNode -Djboss.socket.binding.port-offset=1000
+
 Run the client's with th script runAllClients.sh.
 You need to set JBOSS_HOME and maybe JAVA_HOME if needed.
