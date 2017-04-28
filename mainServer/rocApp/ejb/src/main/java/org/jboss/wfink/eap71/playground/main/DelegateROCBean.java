@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.wfink.eap71.playground;
+package org.jboss.wfink.eap71.playground.main;
 
 import java.security.Principal;
 import java.util.logging.Logger;
@@ -22,72 +22,57 @@ import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 import org.jboss.ejb3.annotation.SecurityDomain;
+import org.jboss.wfink.eap71.playground.Simple;
 
 /**
- * <p>Simple Bean to show client invocation</p>
+ * <p>Simple Bean to show invocation to another server</p>
  *
  * @author <a href="mailto:wfink@redhat.com">Wolf-Dieter Fink</a>
  */
 @Stateless
 @SecurityDomain("other")
-public class SimpleBean implements Simple {
-    private static final Logger log = Logger.getLogger(SimpleBean.class.getName());
+public class DelegateROCBean implements DelegateROC {
+    private static final Logger log = Logger.getLogger(DelegateROCBean.class.getName());
     @Resource
     SessionContext context;
 
+    @EJB(lookup = "ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!org.jboss.wfink.eap71.playground.Simple")
+    Simple proxy;
 
     @Override
     @PermitAll
     public String getJBossServerName() {
         Principal caller = context.getCallerPrincipal();
-        String serverName = System.getProperty("jboss.server.name");
-        
-        log.info("[" + caller.getName() + "] ServerName is " + serverName);
+        log.info("[" + caller.getName() + "] getJBossServerName");
 
-        return serverName;
+        return System.getProperty("jboss.server.name");
     }
 
+    @RolesAllowed({"Application"})
     @Override
-    @PermitAll
-    public void logText(String text) {
-        Principal caller = context.getCallerPrincipal();
-        log.info("[" + caller.getName() + "] Invocation granted with @permitAll  message: " + text);
-
-        return;
-    }
-    
-    @Override
-    public void logTextSecured(String text) {
-        Principal caller = context.getCallerPrincipal();
-        log.info("[" + caller.getName() + "] Invocation granted without annotation  message: " + text);
-
-        return;
-    }
-    
-    @RolesAllowed({"Admin"})
-    @Override
-    public void logText4RoleAdmin(String text) {
-        Principal caller = context.getCallerPrincipal();
-        log.info("[" + caller.getName() + "] Invocation granted for Role=Admin  message: " + text);
-
-        return;
-    }
-    
-    @PermitAll
-    @Override
-    public boolean checkApplicationUser(String userName) {
+    public void checkApplicationUserWithRemoteOutboundConnection(String userName, int invocations) {
         Principal caller = context.getCallerPrincipal();
         
         if(!userName.equals(caller.getName())) {
-        	log.warning("Given user name '" + userName + "' not equal to real use name '" + caller.getName() + "'");
-        	return false;
+        	log.severe("Given user name '" + userName + "' not equal to real use name '" + caller.getName() + "'");
         }else{
-        	log.fine("SimpleBean invoked with expected user '" + userName + "'");
-            return true;
+        	log.fine("Try to invoke remote SimpleBean with user '" + userName + "' " + invocations + " times");
+        	try {
+				Simple proxy = (Simple)new InitialContext().lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
+				for(int i = 0 ; i < invocations ; i++) {
+					proxy.checkApplicationUser(userName);
+				}
+			} catch (NamingException e) {
+				throw new RuntimeException("No target Bean found!", e);
+			}
         }
+        return;
     }
 }

@@ -28,6 +28,7 @@ Copy the server application to both nodes
    cp server/ear/target/EAP71-PLAYGROUND-server.ear EAP_HOME/node?/deployments
 
 
+Run the client's with th script runAllClients.sh.
 
 Clients can be run with the following scripts.
 You need to set JBOSS_HOME and maybe JAVA_HOME if needed.
@@ -49,3 +50,51 @@ Legacy Client:
 ---------------
 This client will use jboss-ejb-client.properties file as already known in EAP6 to connect the server.
 The different properties are located in the properties directory and can be used via classpath setting for the client to show different use cases.
+
+
+
+Test server 2 server communication
+==================================
+
+To test server-server communication we need to add another node
+
+copy standalone folder to mainNode and add another user
+
+    bin/add-user.sh -a -u delegateUser -p delegateUser -g Application -sc mainNode/configuration
+    bin/add-user.sh -a -u delegateUserR -p delegateUser -g Application -sc node1/configuration
+    bin/add-user.sh -a -u delegateUserR -p delegateUser -g Application -sc node2/configuration
+
+copy the application to mainNode
+
+    cp mainServer/icApp/ear/target/EAP71-PLAYGROUND-MainServer-icApp.ear JBOSS_HOME/mainNode/deployments
+
+Start the instance:
+
+    bin/standalone.sh -Djboss.server.base.dir=mainNode -Djboss.node.name=mainNode -Djboss.server.name=mainNode -Djboss.socket.binding.port-offset=1000
+
+Test the delegation with InitialContext connection:
+
+    ./runDelegateClient.sh
+
+The DelegateROC client will not work unless the configuration is added, see next section
+
+
+
+Test remote-outbound-connections
+-------------------------------
+
+Add a connection user to the target node(s):
+
+    bin/add-user.sh -a -u connectionUser -p connectionUser -sc node1/configuration
+    bin/add-user.sh -a -u connectionUser -p connectionUser -sc node2/configuration
+
+Add the remote outbound connection via CLI:
+
+    /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=remote-ejb:add(host=localhost, port=8080)
+    /core-service=management/security-realm=ejb-security-realm:add()
+    /core-service=management/security-realm=ejb-security-realm/server-identity=secret:add(value="Y29ubmVjdGlvblVzZXI=")
+    /subsystem=remoting/remote-outbound-connection=remote-ejb-connection:add(outbound-socket-binding-ref=remote-ejb, protocol=http-remoting, security-realm=ejb-security-realm, username=connectionUser)
+    /subsystem=remoting/remote-outbound-connection=remote-ejb-connection/property=SASL_POLICY_NOANONYMOUS:add(value=false)
+    /subsystem=remoting/remote-outbound-connection=remote-ejb-connection/property=SSL_ENABLED:add(value=false)
+
+

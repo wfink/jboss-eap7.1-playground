@@ -20,18 +20,15 @@
 
     <parent>
         <groupId>org.jboss.wfink.eap-71.playground</groupId>
-        <artifactId>EAP71-PLAYGROUND-parent</artifactId>
+        <artifactId>EAP71-PLAYGROUND-MainServer</artifactId>
         <version>7.1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>EAP71-PLAYGROUND-clients</artifactId>
+    <artifactId>EAP71-PLAYGROUND-MainServer-icApp</artifactId>
     <packaging>pom</packaging>
-    <name>JBoss EAP 7.1 Playground: client applications</name>
+    <name>JBoss EAP 7.1 Playground: main server application with InitialContext delegation</name>
 
     <modules>
-        <module>common</module>
-        <module>InitialContext</module>
-        <module>WildFlyConfig</module>
-        <module>JBossClientProperties</module>
-        <module>Server2Server</module>
+        <module>ejb</module>
+        <module>ear</module>
     </modules>
 </project>

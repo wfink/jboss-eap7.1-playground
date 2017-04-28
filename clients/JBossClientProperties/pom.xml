@@ -61,7 +61,7 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>eap71-playground-mainServer-ejb</artifactId>
+            <artifactId>eap71-playground-mainServer-icAppEjb</artifactId>
             <type>ejb-client</type>
             <version>${project.version}</version>
         </dependency>

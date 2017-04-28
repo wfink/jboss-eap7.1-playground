@@ -65,6 +65,7 @@
 
     <modules>
         <module>server</module>
+        <module>mainServer</module>
         <module>clients</module>
     </modules>
 
