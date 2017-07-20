@@ -1,5 +1,9 @@
 # jboss-eap7.1-playground
 Different solutions to show implementation, use and behaviour of applications deployed inside Red Hat JBoss EAP 7.1 container.
+As clients there are 
+
+- standalone client which use pure InitialContext with properties
+- standalone client which use jboss-ejb-client.properties as legacy configuration
 
 
 
@@ -25,5 +29,22 @@ Copy the server application to both nodes
 
 
 
-Run the client's with th script runAllClients.sh.
+Clients can be run with the following scripts.
 You need to set JBOSS_HOME and maybe JAVA_HOME if needed.
+
+   - Client using properties passed to InitialContext, run the script runAllClients.sh
+   - Client using legacy property file jboss-ejb-client.properties, run script runLegacyClient.sh
+
+
+
+Server configurations:
+-----------------------
+It is also possible to check the behaviour with different server configurations, like 
+- removing <local> to prevent from unknown users
+- removing security from http-connector
+- change user and role configuration
+
+Legacy Client:
+---------------
+This client will use jboss-ejb-client.properties file as already known in EAP6 to connect the server.
+The different properties are located in the properties directory and can be used via classpath setting for the client to show different use cases.
