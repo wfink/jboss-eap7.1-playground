@@ -52,6 +52,8 @@ public class SimpleClient extends AbstractLoggerMain {
 					// CHECK: unfortunately the SecurityException is not directly to catch
 					log.log(Level.SEVERE, "Expected to fail if no <local> configuration in ApplicationRealm, unfortunately no SecurityException but text message in stacktrace", e.getCause());
 				}
+			} else {
+				throw e;
 			}
 		}
 	}

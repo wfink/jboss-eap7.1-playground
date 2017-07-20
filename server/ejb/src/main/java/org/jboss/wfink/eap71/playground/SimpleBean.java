@@ -35,7 +35,7 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 @Stateless
 @SecurityDomain("other")
 public class SimpleBean implements Simple {
-    private static final Logger LOGGER = Logger.getLogger(SimpleBean.class.getName());
+    private static final Logger log = Logger.getLogger(SimpleBean.class.getName());
     @Resource
     SessionContext context;
 
@@ -44,23 +44,26 @@ public class SimpleBean implements Simple {
     @PermitAll
     public String getJBossServerName() {
         Principal caller = context.getCallerPrincipal();
-        LOGGER.info("[" + caller.getName() + "] getJBossServerName");
+        String serverName = System.getProperty("jboss.server.name");
+        
+        log.info("[" + caller.getName() + "] ServerName is " + serverName);
 
-        return System.getProperty("jboss.server.name");
+        return serverName;
     }
 
     @Override
     @PermitAll
     public void logText(String text) {
         Principal caller = context.getCallerPrincipal();
-        LOGGER.info("[" + caller.getName() + "] " + text);
+        log.info("[" + caller.getName() + "] Invocation granted with @permitAll  message: " + text);
 
         return;
     }
     
+    @Override
     public void logTextSecured(String text) {
         Principal caller = context.getCallerPrincipal();
-        LOGGER.info("[" + caller.getName() + "] " + text);
+        log.info("[" + caller.getName() + "] Invocation granted without annotation  message: " + text);
 
         return;
     }
@@ -69,8 +72,22 @@ public class SimpleBean implements Simple {
     @Override
     public void logText4RoleAdmin(String text) {
         Principal caller = context.getCallerPrincipal();
-        LOGGER.info("[" + caller.getName() + "] " + text);
+        log.info("[" + caller.getName() + "] Invocation granted for Role=Admin  message: " + text);
 
         return;
+    }
+    
+    @PermitAll
+    @Override
+    public boolean checkApplicationUser(String userName) {
+        Principal caller = context.getCallerPrincipal();
+        
+        if(!userName.equals(caller.getName())) {
+        	log.warning("Given user name '" + userName + "' not equal to real use name '" + caller.getName() + "'");
+        	return false;
+        }else{
+        	log.fine("Try to invoke remote SimpleBean with user '" + userName + "'");
+            return true;
+        }
     }
 }

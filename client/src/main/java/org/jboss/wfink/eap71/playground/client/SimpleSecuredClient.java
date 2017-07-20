@@ -33,23 +33,64 @@ public class SimpleSecuredClient extends AbstractLoggerMain {
 		p.put(Context.INITIAL_CONTEXT_FACTORY, WildFlyInitialContextFactory.class.getName());
 		p.put(Context.PROVIDER_URL, "http-remoting://localhost:8080");
 		
-		p.put(Context.SECURITY_PRINCIPAL, "user1");
-		p.put(Context.SECURITY_CREDENTIALS, "user1+");
+		
+		//  Invocation with an unknown user
+		
+		p.put(Context.SECURITY_PRINCIPAL, "unknownUser");
+		p.put(Context.SECURITY_CREDENTIALS, "no");
 		InitialContext ic = new InitialContext(p);
 		
 		Simple proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
-		proxy.logText("Simple invocation without security at " + new Date());
-		
 		try {
-			proxy.logText4RoleAdmin("test");
-			log.severe("Unexpected behaviour as user1 should not have the Admin role");
-		} catch (EJBAccessException e) {
-			log.fine("Expected behaviour as user1 does not have the Admin role");
+			log.info("Invocation of @PermitAll method");
+			proxy.checkApplicationUser("unknownUser");
+			log.warning("If there is a $local configuration (default) the invocation success is expected");
+		} catch (Exception e) {
+			log.warning("If the $local configuration (default) is removed the invocation failure is expected");
 		}
-		
-		ic.close();
+		try {
+			log.info("Invocation of @PermitAll method");
+			proxy.logText("Simple invocation without security at " + new Date());
+			log.warning("If there is a $local configuration (default) the invocation success is expected");
+		} catch (Exception e) {
+			log.warning("If the $local configuration (default) is removed the invocation failure is expected");
+		}
 
-		// create a new Context with Admin
+		// Invocations with a know user without roles
+
+		p.put(Context.SECURITY_PRINCIPAL, "user1");
+		p.put(Context.SECURITY_CREDENTIALS, "user1+");
+		ic = new InitialContext(p);
+
+		// !! new lookup is needed, otherwise the old context will be used !!
+		proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
+		try {
+			log.info("Invocation of @PermitAll method");
+			if(proxy.checkApplicationUser("user1")) {
+				log.fine("Expected success as the method is not secured ");
+			} else {
+				log.warning("Unexpected as was invoked with the wrong user, see server.log");
+			}
+		} catch (Exception e) {
+			log.log(Level.SEVERE, "Simple @PermitAll Invocation failed",e);
+			e.printStackTrace();
+		}
+
+
+		// Invocation as 'user1' here role 'Admin' is missing
+		try {
+			log.info("Invocation of @RoleAllowed(Admin) method with missing role");
+			proxy.logText4RoleAdmin("test");
+			log.severe("Unexpected success as user1 should not have the Admin role!");
+		} catch (EJBAccessException e) {
+			log.fine("Expected failure as user1 does not have the Admin role");
+		} catch (Exception e) {
+			log.log(Level.SEVERE, "Unexpected failure!", e);
+		}
+
+
+		// Invocation with a user that contains roles
+
 		p.put(Context.SECURITY_PRINCIPAL, "admin");
 		p.put(Context.SECURITY_CREDENTIALS, "admin");
 		ic = new InitialContext(p);
@@ -58,11 +99,11 @@ public class SimpleSecuredClient extends AbstractLoggerMain {
 		proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
 		
 		try {
-			proxy.logText4RoleAdmin("test");
+			log.info("Invocation of @RoleAllowed(Admin) method with correct role assigned");
+			proxy.logText4RoleAdmin("invocation as admin");
 			log.fine("Expected behaviour as admin have the Admin role");
 		} catch (EJBAccessException e) {
 			log.log(Level.SEVERE, "Unexpected behaviour as admin should have the Admin role!", e);
 		}
 	}
-
 }

@@ -36,7 +36,20 @@ public interface Simple {
 
 	/**
 	 * Invocation only allowed with role = Admin
-	 * @param text
+	 * @param text this text will be logged
 	 */
 	void logText4RoleAdmin(String text);
+
+	/**
+	 * Check whether the given user name is the principal in security context
+	 * @param userName the user name to verify
+	 * @return true if the user is the same
+	 */
+	boolean checkApplicationUser(String userName);
+
+	/**
+	 * Default security method, no annotation.
+	 * @param text this text will be logged
+	 */
+	void logTextSecured(String text);
 }

@@ -19,6 +19,11 @@ Start the instance  depend on the test with standalone or standalone-ha profile 
 
    bin/standalone.sh -Djboss.server.base.dir=node2 -Djboss.node.name=node2 -Djboss.server.name=node2 -Djboss.socket.binding.port-offset=100 -c standalone.xml
 
+Copy the server application to both nodes
+
+   cp server/ear/target/EAP71-PLAYGROUND-server.ear EAP_HOME/node?/deployments
+
+
 
 Run the client's with th script runAllClients.sh.
 You need to set JBOSS_HOME and maybe JAVA_HOME if needed.
