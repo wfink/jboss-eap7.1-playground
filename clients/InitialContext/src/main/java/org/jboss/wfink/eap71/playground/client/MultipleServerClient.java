@@ -13,6 +13,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.jboss.wfink.eap71.playground.Simple;
+import org.jboss.wfink.eap71.playground.client.logging.AbstractLoggerMain;
 import org.wildfly.naming.client.WildFlyInitialContextFactory;
 
 /**

@@ -23,49 +23,9 @@
         <artifactId>EAP71-PLAYGROUND-clients</artifactId>
         <version>7.1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>eap71-playground-clients-InitialContext</artifactId>
+    <artifactId>eap71-playground-clients-common</artifactId>
     <packaging>jar</packaging>
-    <name>JBoss EAP 7.1 Playground: client with InitialContext properties</name>
-
-    <dependencies>
-        <!-- Import the EJB API, we use provided scope as the API is included in JBoss EAP -->
-        <dependency>
-            <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
-        </dependency>
-        <!-- client API for wildfly or EAP7.1+
-             Artifact "wildfly-client-all" will import the uber-jar
-        -->
-        <dependency>
-            <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-naming-client</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <!-- needed, otherwise no NIO provider found -->
-        <dependency>
-            <groupId>org.jboss.xnio</groupId>
-            <artifactId>xnio-nio</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <!-- needed, otherwise javax.naming.OperationNotSupportedException: WFNAM00026: No provider for found for URI: ejb  -->
-        <dependency>
-            <groupId>org.jboss</groupId>
-            <artifactId>jboss-ejb-client</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>eap71-playground-clients-common</artifactId>
-            <type>jar</type>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>eap71-playground-server-ejb</artifactId>
-            <type>ejb-client</type>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
+    <name>JBoss EAP 7.1 Playground: client common classes</name>
 
     <build>
         <finalName>${project.artifactId}</finalName>

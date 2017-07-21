@@ -1,12 +1,10 @@
-package org.jboss.wfink.eap71.playground.client;
+package org.jboss.wfink.eap71.playground.client.logging;
 
 import java.util.ArrayList;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.jboss.wfink.eap71.playground.client.logging.PlaygroundFormatter;
 
 /**
  * Base class for client test to initialize logging.
@@ -64,7 +62,7 @@ public abstract class AbstractLoggerMain {
 		}
 	}
 	
-	static void checkArgs(String[] args) {
+	public static final void checkArgs(String[] args) {
 		ArrayList<String> newArgs = new ArrayList<>();
 		boolean isLoggingSet = false;
 		

@@ -16,6 +16,7 @@ import javax.naming.NamingException;
 import org.wildfly.naming.client.WildFlyInitialContextFactory;
 
 import org.jboss.wfink.eap71.playground.Simple;
+import org.jboss.wfink.eap71.playground.client.logging.AbstractLoggerMain;
 
 /**
  * <p>Simple client to show ejb invocation</p>
