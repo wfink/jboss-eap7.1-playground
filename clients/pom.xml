@@ -28,6 +28,7 @@
     <name>JBoss EAP 7.1 Playground: client applications</name>
 
     <modules>
+        <module>InitialContext</module>
         <module>JBossClientProperties</module>
     </modules>
 </project>

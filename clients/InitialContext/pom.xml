@@ -20,12 +20,12 @@
 
     <parent>
         <groupId>org.jboss.wfink.eap-71.playground</groupId>
-        <artifactId>EAP71-PLAYGROUND-parent</artifactId>
+        <artifactId>EAP71-PLAYGROUND-clients</artifactId>
         <version>7.1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>eap71-playground-client</artifactId>
+    <artifactId>eap71-playground-clients-InitialContext</artifactId>
     <packaging>jar</packaging>
-    <name>JBoss EAP 7.1 Playground: client applications</name>
+    <name>JBoss EAP 7.1 Playground: client with InitialContext properties</name>
 
     <dependencies>
         <!-- Import the EJB API, we use provided scope as the API is included in JBoss EAP -->

@@ -9,7 +9,7 @@ else
   JAVACMD="$JAVA_HOME/bin/java"
 fi
 
-CLASSPATH="client/target/eap71-playground-client.jar:server/ejb/target/eap71-playground-server-ejb-client.jar"
+CLASSPATH="clients/InitialContext/target/eap71-playground-clients-InitialContext.jar:server/ejb/target/eap71-playground-server-ejb-client.jar"
 CLASSPATH="$CLASSPATH:$JBOSS_HOME/bin/client/jboss-client.jar"
 
 
