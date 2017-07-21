@@ -32,7 +32,8 @@ Copy the server application to both nodes
 Clients can be run with the following scripts.
 You need to set JBOSS_HOME and maybe JAVA_HOME if needed.
 
-   - Client using properties passed to InitialContext, run the script runAllClients.sh
+   - Client using properties passed to InitialContext, run the script runInitialContextClients.sh
+   - Client using wildfly-config.xml, run script runWildFlyConfigClients.sh
    - Client using legacy property file jboss-ejb-client.properties, run script runLegacyClient.sh
 
 

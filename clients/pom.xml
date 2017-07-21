@@ -30,6 +30,7 @@
     <modules>
         <module>common</module>
         <module>InitialContext</module>
+        <module>WildFlyConfig</module>
         <module>JBossClientProperties</module>
     </modules>
 </project>
