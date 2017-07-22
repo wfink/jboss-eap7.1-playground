@@ -17,7 +17,7 @@ public abstract class AbstractLoggerMain {
 	static private void setLogging(int logging) {
 		Level logLevel = getLogLevel(logging%10);
 
-		Logger.getLogger(AbstractLoggerMain.class.getPackage().getName()).setLevel(logLevel);
+		Logger.getLogger("org.jboss.wfink.eap71.playground").setLevel(logLevel);
 
 		logLevel = getLogLevel((logging/10)%10);
 		Logger.getLogger("org.xnio").setLevel(logLevel);
