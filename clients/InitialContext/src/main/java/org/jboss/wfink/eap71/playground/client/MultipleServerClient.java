@@ -30,17 +30,23 @@ public class MultipleServerClient extends AbstractLoggerMain {
 		Properties p = new Properties();
 		
 		p.put(Context.INITIAL_CONTEXT_FACTORY, WildFlyInitialContextFactory.class.getName());
-		p.put(Context.PROVIDER_URL, "http-remoting://localhost:8080");
+		p.put(Context.PROVIDER_URL, "http-remoting://localhost:8080,http-remoting://localhost:8180");
 		p.put(Context.SECURITY_PRINCIPAL, "user1");
 		p.put(Context.SECURITY_CREDENTIALS, "user1+");
 		InitialContext ic = new InitialContext(p);
 		
-		Simple proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
+		final String lookup = "ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName();
+		Simple proxy = (Simple) ic.lookup(lookup);
+		log.fine("Proxy is : " + proxy);
 		
 		HashSet<String> serverList = new HashSet<>();
 		
-		for (int i = 0; i < 20; i++) {
-			serverList.add(proxy.getJBossServerName());
+		try {
+			for (int i = 0; i < 20; i++) {
+				serverList.add(proxy.getJBossServerName());
+			}
+		} catch (Exception e) {
+			log.severe("Invocation failed! " + e.getMessage());
 		}
 		
 		if(serverList.size() > 1) {
@@ -48,12 +54,14 @@ public class MultipleServerClient extends AbstractLoggerMain {
 		}else if(serverList.size() == 1) {
 			log.info("Server is not part of a cluster as the invocation was executed on a single server : " + new ArrayList<String>(serverList).get(0));
 		}else{
-			throw new RuntimeException("Unexpected result, no server list!");
+			log.severe("No successfull invocation");
 		}
 		
-		if(serverList.size() == 1) {
+		// check whether an offset with 200 works, this is to check whether dynamically changing the IC will work
+		// current this is not expected to work
+		if(serverList.size() <= 1) {
 			serverList.clear();
-			p.put(Context.PROVIDER_URL, "http-remoting://localhost:8080,http-remoting://localhost:8180");
+			p.put(Context.PROVIDER_URL, "http-remoting://localhost:8080,http-remoting://localhost:8280");
 			ic = new InitialContext(p);
 			proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
 

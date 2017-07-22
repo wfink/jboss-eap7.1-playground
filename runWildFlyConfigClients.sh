@@ -30,3 +30,13 @@ echo
 echo "  ----------  run wildfly-config client without any property ------------------"
 echo
 $JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/admin org.jboss.wfink.eap71.playground.wildfly.client.WildFlyICConfigClient
+
+echo
+echo "  ----------  run wildfly-config client with many URL's should show the two servers (even if run in non HA mode) ------------------"
+echo
+$JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/twoServers org.jboss.wfink.eap71.playground.wildfly.client.MultipleServerWildFlyConfigURIClient -log 2229
+
+echo
+echo "  ----------  run wildfly-config client with one URL should succeed if run against cluster ------------------"
+echo
+$JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/user1 org.jboss.wfink.eap71.playground.wildfly.client.MultipleServerWildFlyConfigURIClient -log 2229
