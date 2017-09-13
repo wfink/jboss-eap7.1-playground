@@ -30,4 +30,4 @@ echo
 echo
 echo "  ----------  run MultipleServerClient  ------------------"
 echo
-$JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.MultipleServerClient
+$JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.MultipleServerProviderURLClient

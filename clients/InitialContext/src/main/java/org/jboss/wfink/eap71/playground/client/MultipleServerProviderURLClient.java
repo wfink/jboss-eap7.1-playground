@@ -17,12 +17,18 @@ import org.jboss.wfink.eap71.playground.client.logging.AbstractLoggerMain;
 import org.wildfly.naming.client.WildFlyInitialContextFactory;
 
 /**
- * <p>Simple client to show ejb invocation</p>
+ * <p>
+ * Client to show ejb invocation with passing PROVIDER_URL with multiple servers to InitialContext.
+ * Servers should run with a non HA configuration.
+ * The test should be successful if server @8080 is active
+ * Show that 2 servers are used if @8080 and @8180 servers are up
+ * Show that both test pass with one server if @8180 and @8280 are up
+ * </p>
  *
  * @author <a href="mailto:wfink@redhat.com">Wolf-Dieter Fink</a>
  */
-public class MultipleServerClient extends AbstractLoggerMain {
-	private static final Logger log = Logger.getLogger(MultipleServerClient.class.getName());
+public class MultipleServerProviderURLClient extends AbstractLoggerMain {
+	private static final Logger log = Logger.getLogger(MultipleServerProviderURLClient.class.getName());
 	
 	public static void main(String[] args) throws NamingException {
 		checkArgs(args);
@@ -37,13 +43,15 @@ public class MultipleServerClient extends AbstractLoggerMain {
 		
 		final String lookup = "ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName();
 		Simple proxy = (Simple) ic.lookup(lookup);
-		log.fine("Proxy is : " + proxy);
+		log.fine("Proxy after lookup is : " + proxy);
 		
 		HashSet<String> serverList = new HashSet<>();
-		
+
+		log.info("Try to invoke SimpleBean with server @8080 @8180");
 		try {
 			for (int i = 0; i < 20; i++) {
 				serverList.add(proxy.getJBossServerName());
+				if(i == 0) log.fine("Proxy after first invocation is : " + proxy);
 			}
 		} catch (Exception e) {
 			log.severe("Invocation failed! " + e.getMessage());
@@ -60,13 +68,16 @@ public class MultipleServerClient extends AbstractLoggerMain {
 		// check whether an offset with 200 works, this is to check whether dynamically changing the IC will work
 		// current this is not expected to work
 		if(serverList.size() <= 1) {
+			log.info("First attempt does not use 2 servers, try to invoke SimpleBean with server @8080 @8280");
 			serverList.clear();
 			p.put(Context.PROVIDER_URL, "http-remoting://localhost:8080,http-remoting://localhost:8280");
 			ic = new InitialContext(p);
 			proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
+			log.fine("Proxy after lookup is : " + proxy);
 
 			for (int i = 0; i < 20; i++) {
 				serverList.add(proxy.getJBossServerName());
+				if(i == 0) log.fine("Proxy after first invocation is : " + proxy);
 			}
 			
 			if(serverList.size() > 1) {
