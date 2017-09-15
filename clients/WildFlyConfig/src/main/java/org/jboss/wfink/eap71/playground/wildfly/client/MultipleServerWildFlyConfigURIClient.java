@@ -28,7 +28,7 @@ public class MultipleServerWildFlyConfigURIClient extends AbstractLoggerMain {
 	private static final Logger log = Logger.getLogger(MultipleServerWildFlyConfigURIClient.class.getName());
 	
 	public static void main(String[] args) throws NamingException {
-		checkArgs(new String[] {"-log","2229"});
+		checkArgs(args);
 
 		Properties p = new Properties();
 		
@@ -45,7 +45,7 @@ public class MultipleServerWildFlyConfigURIClient extends AbstractLoggerMain {
 		}
 		
 		if(serverList.size() > 1) {
-			log.info("Server should be part of a cluster as the invocation was executed on the following servers : " + serverList);
+			log.info("Server should be part of a cluster or multiple URL's as the invocation was executed on the following servers : " + serverList);
 		}else if(serverList.size() == 1) {
 			log.warning("Server is not part of a cluster with multiple nodes, or did not have multiple PROVIDER URL's, as the invocation was executed on a single server : " + new ArrayList<String>(serverList).get(0));
 		}else{

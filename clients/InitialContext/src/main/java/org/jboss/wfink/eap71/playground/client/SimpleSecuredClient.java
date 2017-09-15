@@ -49,13 +49,6 @@ public class SimpleSecuredClient extends AbstractLoggerMain {
 		} catch (Exception e) {
 			log.warning("If the $local configuration (default) is removed the invocation failure is expected");
 		}
-		try {
-			log.info("Invocation of @PermitAll method");
-			proxy.logText("Simple invocation without security at " + new Date());
-			log.warning("If there is a $local configuration (default) the invocation success is expected");
-		} catch (Exception e) {
-			log.warning("If the $local configuration (default) is removed the invocation failure is expected");
-		}
 
 		// Invocations with a know user without roles
 
@@ -86,7 +79,8 @@ public class SimpleSecuredClient extends AbstractLoggerMain {
 		} catch (EJBAccessException e) {
 			log.fine("Expected failure as user1 does not have the Admin role");
 		} catch (Exception e) {
-			log.log(Level.SEVERE, "Unexpected failure!", e);
+			log.severe("Unexpected failure!");
+			e.printStackTrace();
 		}
 
 

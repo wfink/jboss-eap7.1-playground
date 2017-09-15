@@ -16,27 +16,27 @@ CLASSPATH="$CLASSPATH:$JBOSS_HOME/bin/client/jboss-client.jar"
 echo $CLASSPATH
 
 echo
-echo "  ----------  run SimpleClient with wildfly-confix.xml ------------------"
+read -p "  run SimpleClient with wildfly-confix.xml [user1] [y] " yn
 echo
-echo "$JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/user1 org.jboss.wfink.eap71.playground.wildfly.client.SimpleWildFlyConfigClient"
-$JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/user1 org.jboss.wfink.eap71.playground.wildfly.client.SimpleWildFlyConfigClient
+#echo "$JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/user1 org.jboss.wfink.eap71.playground.wildfly.client.SimpleWildFlyConfigClient"
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/user1 org.jboss.wfink.eap71.playground.wildfly.client.SimpleWildFlyConfigClient
 
 echo
-echo "  ----------  run wildfly-config client and override the user ------------------"
+read -p "  run wildfly-config client and override the user [y] " yn
 echo
-$JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/user1 org.jboss.wfink.eap71.playground.wildfly.client.UserOverrideWildFlyConfigClient
+[ "$yn" = "y" ] && #$JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/user1 org.jboss.wfink.eap71.playground.wildfly.client.UserOverrideWildFlyConfigClient
 
 echo
-echo "  ----------  run wildfly-config client without any property ------------------"
+read -p "  run wildfly-config client without any property [y] " yn
 echo
-$JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/admin org.jboss.wfink.eap71.playground.wildfly.client.WildFlyICConfigClient
+[ "$yn" = "y" ] && #$JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/admin org.jboss.wfink.eap71.playground.wildfly.client.WildFlyICConfigClient
 
 echo
-echo "  ----------  run wildfly-config client with many URL's should show the two servers (even if run in non HA mode) ------------------"
+read -p "  run wildfly-config client with many URL's should show the two servers (even if run in non HA mode) [y] " yn
 echo
-$JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/twoServers org.jboss.wfink.eap71.playground.wildfly.client.MultipleServerWildFlyConfigURIClient -log 2229
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/twoServers org.jboss.wfink.eap71.playground.wildfly.client.MultipleServerWildFlyConfigURIClient -log 2229
 
 echo
-echo "  ----------  run wildfly-config client with one URL should succeed if run against cluster ------------------"
+read -p "  run wildfly-config client with one URL should succeed if run against cluster [user1]  [y] " yn
 echo
-$JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/user1 org.jboss.wfink.eap71.playground.wildfly.client.MultipleServerWildFlyConfigURIClient -log 2229
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/user1 org.jboss.wfink.eap71.playground.wildfly.client.MultipleServerWildFlyConfigURIClient -log 2229

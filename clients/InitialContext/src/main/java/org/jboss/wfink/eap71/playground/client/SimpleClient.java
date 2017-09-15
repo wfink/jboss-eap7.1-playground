@@ -3,10 +3,8 @@
  */
 package org.jboss.wfink.eap71.playground.client;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.EJBException;
@@ -14,10 +12,9 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import org.wildfly.naming.client.WildFlyInitialContextFactory;
-
 import org.jboss.wfink.eap71.playground.Simple;
 import org.jboss.wfink.eap71.playground.client.logging.AbstractLoggerMain;
+import org.wildfly.naming.client.WildFlyInitialContextFactory;
 
 /**
  * <p>Simple client to show ejb invocation</p>
@@ -46,16 +43,9 @@ public class SimpleClient extends AbstractLoggerMain {
 		try {
 			proxy.logText("Simple invocation without security at " + new Date());
 			log.info("Expected to work with the default configuration, to get a security failure remote the <local> element from the ApplicationRealm!");
-		} catch (EJBException e) {
-			if(e.getCause() instanceof IOException) {
-				if(e.getCause().getMessage().startsWith("WFNAM00047")) {
-					// expected message failed to connect
-					// CHECK: unfortunately the SecurityException is not directly to catch
-					log.log(Level.SEVERE, "Expected to fail if no <local> configuration in ApplicationRealm, unfortunately no SecurityException but text message in stacktrace", e.getCause());
-				}
-			} else {
-				throw e;
-			}
+		} catch (Exception e) {
+			log.severe("Expected to fail if no <local> configuration in ApplicationRealm, unfortunately no good Exception");
+			e.printStackTrace();
 		}
 	}
 

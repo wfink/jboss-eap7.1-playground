@@ -16,18 +16,23 @@ CLASSPATH="$CLASSPATH:$JBOSS_HOME/bin/client/jboss-client.jar"
 echo $CLASSPATH
 
 echo
-echo "  ----------  run SimpleClient  ------------------"
+read -p "  run SimpleClient without credentials [y] " yn
 echo
-$JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.SimpleClient
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.SimpleClient
 
 echo
 echo
-echo "  ----------  run SimpleSecuredClient  ------------------"
+read -p "  run SimpleSecuredClient with unknown user [y] " yn
 echo
-$JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.SimpleSecuredClient
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.SimpleSecuredClient
 
 echo
 echo
-echo "  ----------  run MultipleServerClient  ------------------"
+read -p "  run MultipleServerClient  connect @8080&&@8180 [y] " yn
 echo
-$JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.MultipleServerProviderURLClient
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.MultipleServerProviderURLClient
+echo
+echo
+read -p "  run Legacy remote naming client use deprecated InitialContextFactory with @8080&&@8180 in PROVIDER_URL [y] " yn
+echo
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.remote.naming.LegacyMultipleServerRemoteNamingClient
