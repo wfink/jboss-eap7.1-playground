@@ -1,9 +1,7 @@
 package org.jboss.wfink.eap71.playground.client.legacy;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.Hashtable;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.EJBException;
@@ -25,24 +23,18 @@ public class LegacyJBossEjbClient {
 
 		try {
 			proxy.logText("Simple invocation without security at " + new Date());
-			log.info("Expected to work, to get a security failure remove the <local> element from the ApplicationRealm and set no user!");
-		} catch (EJBException e) {
-			if(e.getCause() instanceof IOException) {
-				if(e.getCause().getMessage().startsWith("WFNAM00047")) {
-					// expected message failed to connect
-					// CHECK: unfortunately the SecurityException is not directly to catch
-					log.log(Level.SEVERE, "Expected to fail if no <local> configuration in ApplicationRealm, unfortunately no SecurityException but text message in stacktrace", e.getCause());
-				}
-			} else {
-				throw e;
-			}
+			log.info("Expected to work for @PermitAll, to get a security failure remove the <local> element from the ApplicationRealm and set no user!");
+		} catch (Exception e) {
+			log.severe("Expected to fail if no <local> configuration in ApplicationRealm " + e.getMessage());
+			e.printStackTrace();
 		}
 
 		try {
 			proxy.logText4RoleAdmin("Invocation as legacy client " + new Date());
 			log.info("Expected to work only as admin user");
 		} catch (EJBException e) {
-			log.warning("Failure expected if the user is not 'admin'");
+			log.warning("Failure expected if the user is not 'admin' " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 }
