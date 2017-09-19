@@ -18,11 +18,32 @@ CLASSPATH="$CLASSPATH:$JBOSS_HOME/bin/client/jboss-client.jar"
 echo $CLASSPATH
 
 echo
-echo "  ----------  run server2server with dedicated connection  ------------------"
+echo " use server2server invocation by having a dedicated InitialContext with properties"
+echo " the call check the user  'delegateUser' -> 'delegateUserR'"
+read -p  "  run [yn]? " yn
 echo
-$JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.DelegateClient
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.DelegateClient
 
 echo
-echo "  ----------  run server2server with remote-outbound-connection  ------------------"
+echo " run server2server with dedicated connection and transaction from mainServer to Node"
+echo " there are a successful invocation and a setRollbackOnly and RuntimeException on each node"
+echo " Check must be manual!"
+read -p "  run [yn]? " yn
 echo
-$JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.DelegateROCClient
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.CheckDelegateTxClient
+
+echo
+echo "  run server2server invocation with remote-outbound-connection without Transaction"
+echo "  the expected user is 'delegateUser' as it should propagated to the backend"
+echo "  if there is a cluster it is expected that that invocations are load-balanced"
+echo "  expect no error"
+read -p "  run [yn]? " yn
+echo
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.DelegateROCClient
+
+echo
+echo "  run server2server with remote-outbound-connection  [yn] " yn
+echo "  expect no error, as the transaction should stick to one node if active the node list should be a single node"
+read -p "  run server2server with remote-outbound-connection  [yn] " yn
+echo
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.CheckDelegateTxROCClient

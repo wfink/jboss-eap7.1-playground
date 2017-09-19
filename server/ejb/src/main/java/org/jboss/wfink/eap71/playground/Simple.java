@@ -52,4 +52,17 @@ public interface Simple {
 	 * @param text this text will be logged
 	 */
 	void logTextSecured(String text);
+
+	/**
+	 * Method with mandatory transaction.
+	 * The method can force an exception or rollback by flags to simulate failure.
+	 * A transaction listener will check whether the Tx succeed or fail as expected.
+	 * 
+	 * @param setRollbackOnly If true the rollback flag will be set
+	 * @param throwException If true the method throw a RuntimeException to fail
+	 * @param expectedToCommit expectation to be cheked with the TxListener
+	 */
+	void checkTransactionContext(boolean setRollbackOnly, boolean throwException, boolean expectedToCommit);
+
+	String getJBossServerNameInRunningTx();
 }

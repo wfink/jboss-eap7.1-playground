@@ -19,13 +19,19 @@ package org.jboss.wfink.eap71.playground;
 import java.security.Principal;
 import java.util.logging.Logger;
 
+import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.naming.NamingException;
+import javax.transaction.TransactionSynchronizationRegistry;
 
 import org.jboss.ejb3.annotation.SecurityDomain;
+import org.jboss.wfink.ejb30.tx.sync.TxSyncInterceptor;
 
 /**
  * <p>Simple Bean to show client invocation</p>
@@ -38,8 +44,16 @@ public class SimpleBean implements Simple {
     private static final Logger log = Logger.getLogger(SimpleBean.class.getName());
     @Resource
     SessionContext context;
+    @Resource
+    TransactionSynchronizationRegistry txRegistry;
 
-
+    @Override
+    @PermitAll
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public String getJBossServerNameInRunningTx() {
+    	return getJBossServerName();
+    }
+    
     @Override
     @PermitAll
     public String getJBossServerName() {
@@ -89,5 +103,22 @@ public class SimpleBean implements Simple {
         	log.fine("SimpleBean invoked with expected user '" + userName + "'");
             return true;
         }
+    }
+    
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    @PermitAll
+    @Override
+    public void checkTransactionContext(boolean setRollbackOnly, boolean throwException, boolean expectedToCommit) {
+    	log.info("checkTransactionContext(" + setRollbackOnly + ", " + throwException + ", " + expectedToCommit + ") called");
+        txRegistry.registerInterposedSynchronization(new TxSyncInterceptor(setRollbackOnly));
+
+    	if(setRollbackOnly) {
+    		context.setRollbackOnly();
+    		log.warning("Rollback set!");
+    	}
+    	if(throwException) {
+    		throw new RuntimeException("Forced failure!");
+    	}
+    	return;
     }
 }

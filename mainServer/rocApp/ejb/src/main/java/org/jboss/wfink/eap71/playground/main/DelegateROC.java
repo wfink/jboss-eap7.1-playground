@@ -47,4 +47,10 @@ public interface DelegateROC {
 	 * @throws NamingException InitialContext could not created
 	 */
 	void checkApplicationUserWithRemoteOutboundConnection(String userName, int invocations);
+
+	void checkTransactionBehaviour(boolean setLocalRollbackOnly, boolean throwLocalException,
+			boolean setRemoteRollbackOnly, boolean throwRemoteException, boolean expectedToCommit)
+			throws NamingException;
+
+	void checkTransactionStickyness();
 }

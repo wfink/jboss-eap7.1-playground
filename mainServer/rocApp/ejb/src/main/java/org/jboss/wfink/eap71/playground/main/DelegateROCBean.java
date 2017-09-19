@@ -17,6 +17,7 @@
 package org.jboss.wfink.eap71.playground.main;
 
 import java.security.Principal;
+import java.util.HashSet;
 import java.util.logging.Logger;
 
 import javax.annotation.Resource;
@@ -25,11 +26,15 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.transaction.TransactionSynchronizationRegistry;
 
 import org.jboss.ejb3.annotation.SecurityDomain;
 import org.jboss.wfink.eap71.playground.Simple;
+import org.jboss.wfink.ejb30.tx.sync.TxSyncInterceptor;
 
 /**
  * <p>Simple Bean to show invocation to another server</p>
@@ -42,6 +47,9 @@ public class DelegateROCBean implements DelegateROC {
     private static final Logger log = Logger.getLogger(DelegateROCBean.class.getName());
     @Resource
     SessionContext context;
+
+    @Resource
+    TransactionSynchronizationRegistry txRegistry;
 
     @EJB(lookup = "ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!org.jboss.wfink.eap71.playground.Simple")
     Simple proxy;
@@ -56,6 +64,7 @@ public class DelegateROCBean implements DelegateROC {
     }
 
     @RolesAllowed({"Application"})
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     @Override
     public void checkApplicationUserWithRemoteOutboundConnection(String userName, int invocations) {
         Principal caller = context.getCallerPrincipal();
@@ -74,5 +83,39 @@ public class DelegateROCBean implements DelegateROC {
 			}
         }
         return;
+    }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    @PermitAll
+    @Override
+    public void checkTransactionBehaviour(boolean setLocalRollbackOnly, boolean throwLocalException, boolean setRemoteRollbackOnly, boolean throwRemoteException, boolean expectedToCommit) throws NamingException {
+        txRegistry.registerInterposedSynchronization(new TxSyncInterceptor(setLocalRollbackOnly|setRemoteRollbackOnly));
+
+    	proxy.checkTransactionContext(setRemoteRollbackOnly, throwRemoteException, expectedToCommit);
+    	
+    	if(setLocalRollbackOnly) {
+    		context.setRollbackOnly();
+    		log.warning("Rollback set!");
+    	}
+    	if(throwLocalException) {
+    		throw new RuntimeException("Forced failure!");
+    	}
+    	log.info("Method done");
+    }
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    @PermitAll
+    @Override
+    public void checkTransactionStickyness() {
+
+        HashSet<String> servers = new HashSet<String>();
+        for(int i = 0 ; i <20 ; i++) {
+        	servers.add(proxy.getJBossServerNameInRunningTx());
+        }
+    	if(servers.size() != 1) {
+    		log.severe("Unexpected list of target servers : " + servers);
+    		throw new RuntimeException("Tx seems not to be sticky servers are : " + servers);
+    	}
+    	log.info("Method done");
     }
 }

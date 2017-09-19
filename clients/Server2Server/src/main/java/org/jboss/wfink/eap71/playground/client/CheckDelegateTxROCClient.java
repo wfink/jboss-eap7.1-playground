@@ -19,8 +19,8 @@ import org.wildfly.naming.client.WildFlyInitialContextFactory;
  *
  * @author <a href="mailto:wfink@redhat.com">Wolf-Dieter Fink</a>
  */
-public class DelegateROCClient extends AbstractLoggerMain {
-	private static final Logger log = Logger.getLogger(DelegateROCClient.class.getName());
+public class CheckDelegateTxROCClient extends AbstractLoggerMain {
+	private static final Logger log = Logger.getLogger(CheckDelegateTxROCClient.class.getName());
 	
 	public static void main(String[] args) throws NamingException {
 		checkArgs(args);
@@ -35,7 +35,7 @@ public class DelegateROCClient extends AbstractLoggerMain {
 		InitialContext ic = new InitialContext(p);
 		
 		DelegateROC proxy = (DelegateROC) ic.lookup("ejb:EAP71-PLAYGROUND-MainServer-rocApp/ejb/DelegateROCBean!" + DelegateROC.class.getName());
-		proxy.checkApplicationUserWithRemoteOutboundConnection("delegateUser", 5);
+		proxy.checkTransactionStickyness();
 		
 		// ic.close();  // not longer necessary
 	}

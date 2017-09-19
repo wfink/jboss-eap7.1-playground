@@ -43,4 +43,8 @@ public interface Delegate {
 	 * @throws NamingException InitialContext could not created
 	 */
 	void checkApplicationUser4DedicatedConnection(String localUserName, String remoteUserName) throws NamingException;
+
+	void checkTransactionBehaviour(boolean setLocalRollbackOnly, boolean throwLocalException,
+			boolean setRemoteRollbackOnly, boolean throwRemoteException, boolean expectedToCommit)
+			throws NamingException;
 }
