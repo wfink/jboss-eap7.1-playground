@@ -22,6 +22,12 @@ echo
 [ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.SimpleClient
 
 echo
+echo " Simple client use WildflyInitialContext without credentials @8080  - testclient clients-InitialContext SimpleWildFlyInitialContextClient"
+read -p "  run [y]? " yn
+echo
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.SimpleWildFlyInitialContextClient
+
+echo
 echo " Simple client use InitialContext, try to invoke @8080  - testclient clients-InitialContext  SimpleSecuredClient"
 echo "   1. [unknownUser] @PermitAll might succeed if $local default is configured"
 echo "   2. [user1] @PermitAll is expected to work"
