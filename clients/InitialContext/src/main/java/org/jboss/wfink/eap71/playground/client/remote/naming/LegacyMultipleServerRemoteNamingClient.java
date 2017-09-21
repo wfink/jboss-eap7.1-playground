@@ -39,6 +39,7 @@ public class LegacyMultipleServerRemoteNamingClient extends AbstractLoggerMain {
 		p.put(Context.PROVIDER_URL, "http-remoting://localhost:8080,http-remoting://localhost:8180");
 		p.put(Context.SECURITY_PRINCIPAL, "user1");
 		p.put(Context.SECURITY_CREDENTIALS, "user1+");
+		p.put("jboss.naming.client.ejb.context", true);
 		InitialContext ic = new InitialContext(p);
 		
 		final String lookup = "EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName();
