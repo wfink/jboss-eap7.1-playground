@@ -64,30 +64,5 @@ public class MultipleServerProviderURLClient extends AbstractLoggerMain {
 		}else{
 			log.severe("No successfull invocation");
 		}
-		
-		// check whether an offset with 200 works, this is to check whether dynamically changing the IC will work
-		// current this is not expected to work
-		if(serverList.size() <= 1) {
-			log.info("First attempt does not use 2 servers, try to invoke SimpleBean with server @8080 @8280");
-			serverList.clear();
-			p.put(Context.PROVIDER_URL, "http-remoting://localhost:8080,http-remoting://localhost:8280");
-			ic = new InitialContext(p);
-			proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
-			log.fine("Proxy after lookup is : " + proxy);
-
-			for (int i = 0; i < 20; i++) {
-				serverList.add(proxy.getJBossServerName());
-				if(i == 0) log.fine("Proxy after first invocation is : " + proxy);
-			}
-			
-			if(serverList.size() > 1) {
-				log.info("Multiple servers in PROVIDER_URL are used to loadbalance invocations as the invocation was executed on the following servers : " + serverList);
-			}else if(serverList.size() == 1) {
-				log.info("Multiple servers in PROVIDER_URL does not invoke multiple servers only server : " + new ArrayList<String>(serverList).get(0));
-			}else{
-				throw new RuntimeException("Unexpected result, no server list!");
-			}
-		}
 	}
-
 }

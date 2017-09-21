@@ -72,7 +72,7 @@ public class DelegateROCBean implements DelegateROC {
         if(!userName.equals(caller.getName())) {
         	log.severe("Given user name '" + userName + "' not equal to real use name '" + caller.getName() + "'");
         }else{
-        	log.fine("Try to invoke remote SimpleBean with user '" + userName + "' " + invocations + " times");
+        	log.info("Try to invoke remote SimpleBean with user '" + userName + "' " + invocations + " times");
         	try {
 				Simple proxy = (Simple)new InitialContext().lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
 				for(int i = 0 ; i < invocations ; i++) {

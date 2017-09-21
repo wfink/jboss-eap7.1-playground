@@ -20,7 +20,7 @@
 <configuration>
   <jboss-ejb-client xmlns="urn:jboss:wildfly-client-ejb:3.0">
     <connections>
-      <connection uri="remote+http://localhost:8180"/>
+      <connection uri="remote+http://localhost:8080"/>
     </connections>
   </jboss-ejb-client>
   <authentication-client xmlns="urn:elytron:1.0">

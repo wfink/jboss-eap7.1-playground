@@ -16,23 +16,30 @@ CLASSPATH="$CLASSPATH:$JBOSS_HOME/bin/client/jboss-client.jar"
 echo $CLASSPATH
 
 echo
-read -p "  run SimpleClient without credentials [y] " yn
+echo " Simple client use InitialContext without credentials @8080  - testclient clients-InitialContext SimpleClient"
+read -p "  run [y]? " yn
 echo
 [ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.SimpleClient
 
 echo
-echo
-read -p "  run SimpleSecuredClient with unknown user [y] " yn
+echo " Simple client use InitialContext, try to invoke @8080  - testclient clients-InitialContext  SimpleSecuredClient"
+echo "   1. [unknownUser] @PermitAll might succeed if $local default is configured"
+echo "   2. [user1] @PermitAll is expected to work"
+echo "   3. [user1] @Role admin  is expected to fail, error is shown only if behaviour is unexpected"
+echo "   4. [admin] @Role admin  is expected to work, error is shown only if behaviour is unexpected"
+read -p "  run [y]? " yn
 echo
 [ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.SimpleSecuredClient
 
 echo
-echo
-read -p "  run MultipleServerClient  connect @8080&&@8180 [y] " yn
+echo " Simple client use InitialContext, try to invoke multiple nodes  - testclient clients-InitialContext MultipleServerProvideURLClient"
+echo "  1. PROVIDER_URL '@8080 and @8180', this should return both nodes for multiple invocations -- if LB work without cluster"
+echo "     otherwise is should work even if only one server is started!"
+read -p "  run [y]? " yn
 echo
 [ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.MultipleServerProviderURLClient
 echo
-echo
-read -p "  run Legacy remote naming client use deprecated InitialContextFactory with @8080&&@8180 in PROVIDER_URL [y] " yn
+echo " Legacy remote-naming settings with deprecated InitialContextFactory with @8080 @8180 in PROVIDER_URL  - testclient clients-InitialContext  LegacyMultipleServerRemoteNamingClient"
+read -p "  run [y]? " yn
 echo
 [ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.remote.naming.LegacyMultipleServerRemoteNamingClient
