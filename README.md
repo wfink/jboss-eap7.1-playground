@@ -88,7 +88,7 @@ Add a connection user to the target node(s):
     bin/add-user.sh -a -u connectionUser -p connectionUser -sc node1/configuration
     bin/add-user.sh -a -u connectionUser -p connectionUser -sc node2/configuration
 
-Add the remote outbound connection via CLI:
+Add the remote outbound connection via CLI to the mainNode:
 
     /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=remote-ejb:add(host=localhost, port=8080)
     /core-service=management/security-realm=ejb-security-realm:add()
