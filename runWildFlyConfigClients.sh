@@ -41,3 +41,10 @@ echo "  should run with one of each and loadbalance if both are available (even 
 read -p "  run [y]? " yn
 echo
 [ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/twoServers org.jboss.wfink.eap71.playground.wildfly.client.MultipleServerWildFlyConfigURIClient
+
+echo
+echo " run UserTransactionClient with WildFlyInitialContext and wildfly-config.xml @8080 @8180 [user1]  -- testclient clients UserTransactionWildFlyConfigClient clients/WildFlyConfig/config/twoServers"
+echo "  should show stickyness for transaction for multiple servers not in HA mode"
+read -p "  run [y]? " yn
+echo
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/twoServers org.jboss.wfink.eap71.playground.wildfly.client.UserTransactionWildFlyConfigClient

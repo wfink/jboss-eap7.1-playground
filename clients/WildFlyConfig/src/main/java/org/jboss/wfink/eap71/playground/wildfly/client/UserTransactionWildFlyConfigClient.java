@@ -1,11 +1,11 @@
 /**
  * 
  */
-package org.jboss.wfink.eap71.playground.client;
+package org.jboss.wfink.eap71.playground.wildfly.client;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.naming.Context;
@@ -20,34 +20,32 @@ import javax.transaction.UserTransaction;
 
 import org.jboss.wfink.eap71.playground.Simple;
 import org.jboss.wfink.eap71.playground.client.logging.AbstractLoggerMain;
+import org.wildfly.naming.client.WildFlyInitialContext;
 import org.wildfly.naming.client.WildFlyInitialContextFactory;
 
 /**
  * <p>Client which lookup a UserTransaction and check whether the invocations within the same transaction are automatically sticky<br/>
  * This is to ensure that one application is invoked always on the same server as cached data of JPA entities might become stale otherwise</p>
- *
+ * <p>
+ * Test make current no sense because of the behaviour of Transaction lookup
+ * </p>
+ * 
  * @author <a href="mailto:wfink@redhat.com">Wolf-Dieter Fink</a>
  */
-public class UserTransactionClient extends AbstractLoggerMain {
-	private static final Logger log = Logger.getLogger(UserTransactionClient.class.getName());
+public class UserTransactionWildFlyConfigClient extends AbstractLoggerMain {
+	private static final Logger log = Logger.getLogger(UserTransactionWildFlyConfigClient.class.getName());
 	
-	public static void main(String[] args) throws NamingException {
-		checkArgs(args);
+	public static void main(String[] args) throws NamingException, NotSupportedException, SystemException {
+		checkArgs(new String[] {"-log","2229"});
 
+		// Set I_C_F with properties and use wildfly-config.xml to set the server URI and credentials
 		Properties p = new Properties();
-		
 		p.put(Context.INITIAL_CONTEXT_FACTORY, WildFlyInitialContextFactory.class.getName());
-		p.put(Context.PROVIDER_URL, "http-remoting://localhost:8080,http-remoting://localhost:8180");
-		p.put(Context.SECURITY_PRINCIPAL, "user1");
-		p.put(Context.SECURITY_CREDENTIALS, "user1+");
 		InitialContext ic = new InitialContext(p);
-		
-		final String lookup = "ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName();
-		Simple proxy = (Simple) ic.lookup(lookup);
-		log.fine("Proxy is : " + proxy);
-		
 		HashSet<String> serverList = new HashSet<>();
-		
+
+		Simple proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
+
 		try {
 			for (int i = 0; i < 20; i++) {
 				serverList.add(proxy.getJBossServerName());
@@ -106,5 +104,4 @@ public class UserTransactionClient extends AbstractLoggerMain {
 			log.info("Transactions seems sticky, " + (multipleServers ? "multiple servers are used for different transactions" : "ONLY ONE server is used for different transactions"));
 		}
 	}
-
 }
