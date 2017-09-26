@@ -20,7 +20,7 @@ import org.jboss.wfink.eap71.playground.client.logging.AbstractLoggerMain;
  *   bin/add-user.sh -a -u user1 -p user1+
  * </p>
  * <p>
- * There are several options to create the initial context. Here we use jndi.properties and wildfly-config.xml.<br/>
+ * There are several options to create the initial context. Here we use java.naming.InitialContext and pass jndi.properties and wildfly-config.xml.<br/>
  * Other option are documented in <a href="https://github.com/wildfly/wildfly-naming-client#usage">WildFly Naming Client</a>
  * </p>
  *
@@ -31,9 +31,11 @@ public class SimpleWildFlyConfigClient extends AbstractLoggerMain {
 	
 	public static void main(String[] args) throws NamingException {
 		checkArgs(args);
-		
+
+		// One option is to use the java context, the INITIAL_CONTEXT_FACTORY is added by jndi.properties
+		// the URI and credentials by wildfly-config.xml
 		InitialContext ic = new InitialContext();
-		
+
 		Simple proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
 		
 		try {

@@ -40,4 +40,4 @@ echo " run SimpleClient with WildFlyInitialContext and wildfly-config.xml @8080 
 echo "  should run with one of each and loadbalance if both are available (even if not in HA mode)"
 read -p "  run [y]? " yn
 echo
-[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/twoServers org.jboss.wfink.eap71.playground.wildfly.client.MultipleServerWildFlyConfigURIClient -log 2229
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/twoServers org.jboss.wfink.eap71.playground.wildfly.client.MultipleServerWildFlyConfigURIClient

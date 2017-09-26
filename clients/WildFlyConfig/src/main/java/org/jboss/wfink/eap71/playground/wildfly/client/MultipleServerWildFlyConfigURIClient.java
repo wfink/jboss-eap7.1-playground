@@ -30,8 +30,8 @@ public class MultipleServerWildFlyConfigURIClient extends AbstractLoggerMain {
 	public static void main(String[] args) throws NamingException {
 		checkArgs(args);
 
+		// Set I_C_F with properties and use wildfly-config.xml to set the server URI and credentials
 		Properties p = new Properties();
-		
 		p.put(Context.INITIAL_CONTEXT_FACTORY, WildFlyInitialContextFactory.class.getName());
 		InitialContext ic = new InitialContext(p);
 		

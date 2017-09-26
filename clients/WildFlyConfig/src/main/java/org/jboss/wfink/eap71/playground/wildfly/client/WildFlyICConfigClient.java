@@ -34,6 +34,7 @@ public class WildFlyICConfigClient extends AbstractLoggerMain {
 	public static void main(String[] args) throws NamingException {
 		checkArgs(args);
 		
+		// Option is to use the WF context with no properties, this is not working because of JBEAP-xxxx at this moment
 		InitialContext ic = new WildFlyInitialContext();
 		
 		Simple proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
