@@ -48,3 +48,10 @@ echo "  should show stickyness for transaction for multiple servers not in HA mo
 read -p "  run [y]? " yn
 echo
 [ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/twoServers org.jboss.wfink.eap71.playground.wildfly.client.UserTransactionWildFlyConfigClient $CLIENT_ARGS
+
+echo
+echo " run UserTransactionClient with mixed WildFlyInitialContext and wildfly-config.xml @8080 @8180 [user1]  -- testclient clients UserTransactionWildFlyConfigClient clients/WildFlyConfig/config/user1Only"
+echo "  should show stickyness for transaction for multiple servers not in HA mode"
+read -p "  run [y]? " yn
+echo
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/user1WithJNDIproperties org.jboss.wfink.eap71.playground.wildfly.client.UserTransactionWildFlyConfigClient $CLIENT_ARGS
