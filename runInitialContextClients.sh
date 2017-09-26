@@ -49,3 +49,9 @@ echo " Legacy remote-naming settings with deprecated InitialContextFactory with 
 read -p "  run [y]? " yn
 echo
 [ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.remote.naming.LegacyMultipleServerRemoteNamingClient
+
+echo
+echo " run client with @8080 @8180 in PROVIDER_URL and check UserTransaction stickyness - testclient clients-InitialContext  UserTransactionClient"
+read -p "  run [y]? " yn
+echo
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.UserTransactionClient
