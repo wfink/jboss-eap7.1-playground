@@ -20,7 +20,7 @@ echo " run client without any jboss-ejb-client.properties  - JBossEJBClientConfi
 echo "  both invocations are expected to fail as there is no target server"
 read -p "  run [y]? " yn
 echo
-[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.legacy.LegacyJBossEjbClient
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.legacy.LegacyJBossEjbClient $CLIENT_ARGS
 
 echo
 echo
@@ -29,7 +29,7 @@ echo "   first invocation is expected to work if the server is configured with l
 echo "   second invocation is expected to fail (EJBAccessException) as the ROLE is missing without user"
 read -p "  run [y]? " yn
 echo
-[ "$yn" = "y" ] && $JAVACMD -cp ${CLASSPATH}:clients/JBossClientProperties/properties/noSecurity org.jboss.wfink.eap71.playground.client.legacy.LegacyJBossEjbClient
+[ "$yn" = "y" ] && $JAVACMD -cp ${CLASSPATH}:clients/JBossClientProperties/properties/noSecurity org.jboss.wfink.eap71.playground.client.legacy.LegacyJBossEjbClient $CLIENT_ARGS
 
 echo
 echo
@@ -38,7 +38,7 @@ echo "   first invocation is expected to work as the method is annotated @Permit
 echo "   second invocation is expected to fail (EJBAccessException) as the ROLE(admin) is missing with user1"
 read -p "  run [y]? " yn
 echo
-[ "$yn" = "y" ] && $JAVACMD -cp ${CLASSPATH}:clients/JBossClientProperties/properties/user1 org.jboss.wfink.eap71.playground.client.legacy.LegacyJBossEjbClient
+[ "$yn" = "y" ] && $JAVACMD -cp ${CLASSPATH}:clients/JBossClientProperties/properties/user1 org.jboss.wfink.eap71.playground.client.legacy.LegacyJBossEjbClient $CLIENT_ARGS
 
 echo
 echo
@@ -47,7 +47,7 @@ echo "   first invocation is expected to work"
 echo "   second invocation is expected to work as the user admin has the ROLE(admin)"
 read -p "  run [y]? " yn
 echo
-[ "$yn" = "y" ] && $JAVACMD -cp ${CLASSPATH}:clients/JBossClientProperties/properties/admin org.jboss.wfink.eap71.playground.client.legacy.LegacyJBossEjbClient
+[ "$yn" = "y" ] && $JAVACMD -cp ${CLASSPATH}:clients/JBossClientProperties/properties/admin org.jboss.wfink.eap71.playground.client.legacy.LegacyJBossEjbClient $CLIENT_ARGS
 
 echo
 echo
@@ -56,7 +56,7 @@ echo "   Try multiple invocations with only one initial connection and check whe
 echo "   this should be the case if the connected server is part of the cluster, without cluster only one node is expected"
 read -p "  run [y]? " yn
 echo
-[ "$yn" = "y" ] && $JAVACMD -cp ${CLASSPATH}:clients/JBossClientProperties/properties/user1 org.jboss.wfink.eap71.playground.client.legacy.LegacyClusterJBossEjbClient
+[ "$yn" = "y" ] && $JAVACMD -cp ${CLASSPATH}:clients/JBossClientProperties/properties/user1 org.jboss.wfink.eap71.playground.client.legacy.LegacyClusterJBossEjbClient $CLIENT_ARGS
 
 echo
 echo
@@ -65,4 +65,4 @@ echo "   Try multiple invocations with only one initial connection and check whe
 echo "   this should be the case if the connected server is part of the cluster, without cluster only one node is expected"
 read -p "  run with basic properties as user with two server URL test loadbalancing  [y] " yn
 echo
-[ "$yn" = "y" ] && $JAVACMD -cp ${CLASSPATH}:clients/JBossClientProperties/properties/twoServer org.jboss.wfink.eap71.playground.client.legacy.LegacyClusterJBossEjbClient
+[ "$yn" = "y" ] && $JAVACMD -cp ${CLASSPATH}:clients/JBossClientProperties/properties/twoServer org.jboss.wfink.eap71.playground.client.legacy.LegacyClusterJBossEjbClient $CLIENT_ARGS

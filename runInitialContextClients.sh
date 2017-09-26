@@ -19,13 +19,13 @@ echo
 echo " Simple client use InitialContext without credentials @8080  - testclient clients-InitialContext SimpleClient"
 read -p "  run [y]? " yn
 echo
-[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.SimpleClient
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.SimpleClient $CLIENT_ARGS
 
 echo
 echo " Simple client use WildflyInitialContext without credentials @8080  - testclient clients-InitialContext SimpleWildFlyInitialContextClient"
 read -p "  run [y]? " yn
 echo
-[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.SimpleWildFlyInitialContextClient
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.SimpleWildFlyInitialContextClient $CLIENT_ARGS
 
 echo
 echo " Simple client use InitialContext, try to invoke @8080  - testclient clients-InitialContext  SimpleSecuredClient"
@@ -35,7 +35,7 @@ echo "   3. [user1] @Role admin  is expected to fail, error is shown only if beh
 echo "   4. [admin] @Role admin  is expected to work, error is shown only if behaviour is unexpected"
 read -p "  run [y]? " yn
 echo
-[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.SimpleSecuredClient
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.SimpleSecuredClient $CLIENT_ARGS
 
 echo
 echo " Simple client use InitialContext, try to invoke multiple nodes  - testclient clients-InitialContext MultipleServerProvideURLClient"
@@ -43,15 +43,15 @@ echo "  1. PROVIDER_URL '@8080 and @8180', this should return both nodes for mul
 echo "     otherwise is should work even if only one server is started!"
 read -p "  run [y]? " yn
 echo
-[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.MultipleServerProviderURLClient
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.MultipleServerProviderURLClient $CLIENT_ARGS
 echo
 echo " Legacy remote-naming settings with deprecated InitialContextFactory with @8080 @8180 in PROVIDER_URL  - testclient clients-InitialContext  LegacyMultipleServerRemoteNamingClient"
 read -p "  run [y]? " yn
 echo
-[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.remote.naming.LegacyMultipleServerRemoteNamingClient
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.remote.naming.LegacyMultipleServerRemoteNamingClient $CLIENT_ARGS
 
 echo
 echo " run client with @8080 @8180 in PROVIDER_URL and check UserTransaction stickyness - testclient clients-InitialContext  UserTransactionClient"
 read -p "  run [y]? " yn
 echo
-[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.UserTransactionClient
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.UserTransactionClient $CLIENT_ARGS

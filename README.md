@@ -98,3 +98,23 @@ Add the remote outbound connection via CLI to the mainNode:
     /subsystem=remoting/remote-outbound-connection=remote-ejb-connection/property=SSL_ENABLED:add(value=false)
 
 
+Enable client side logging
+---------------------------
+
+The environment $CLIENT_ARGS can be set to "-log WCRT"
+where the position is the category
+  W  org.wildfly
+  C  org.jboss.ejb.client
+  R  org.xnio org.jboss.remoting
+  T  org.jboss.wfink
+
+and the number is the level
+  0  Off
+  1  Warn
+  2 Info
+  3 Fine
+  4 Finer
+  5 Finest
+  9 ALL
+
+If not give it defaults to "-log 9" to show the messages from the test classes

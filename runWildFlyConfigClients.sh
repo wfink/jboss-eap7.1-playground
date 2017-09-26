@@ -20,31 +20,31 @@ echo " run SimpleClient with java.naming.InitialContext, jndi.properties and wil
 echo U
 read -p "  run [y]? " yn
 echo
-[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/user1 org.jboss.wfink.eap71.playground.wildfly.client.SimpleWildFlyConfigClient
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/user1 org.jboss.wfink.eap71.playground.wildfly.client.SimpleWildFlyConfigClient $CLIENT_ARGS
 
 echo
 echo " run SimpleClient with java.naming.InitialContext and wildfly-config [user1]  -- testclient clients UserOverrideWildFlyConfigClient clients/WildFlyConfig/config/user1"
 echo "  InitialContext will override the user, expected to work"
 read -p "  run [y]? " yn
 echo
-[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/user1 org.jboss.wfink.eap71.playground.wildfly.client.UserOverrideWildFlyConfigClient
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/user1 org.jboss.wfink.eap71.playground.wildfly.client.UserOverrideWildFlyConfigClient $CLIENT_ARGS
 
 echo
 echo " run SimpleClient with WildFlyInitialContext and wildfly-config [admin]  -- testclient clients WildFlyICConfigClient clients/WildFlyConfig/config/admin"
 read -p "  run [y]? " yn
 echo
-[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/admin org.jboss.wfink.eap71.playground.wildfly.client.WildFlyICConfigClient
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/admin org.jboss.wfink.eap71.playground.wildfly.client.WildFlyICConfigClient $CLIENT_ARGS
 
 echo
 echo " run SimpleClient with WildFlyInitialContext and wildfly-config.xml @8080 @8180 [user1]  -- testclient clients MultipleServerWildFlyConfigURIClient clients/WildFlyConfig/config/twoServers"
 echo "  should run with one of each and loadbalance if both are available (even if not in HA mode)"
 read -p "  run [y]? " yn
 echo
-[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/twoServers org.jboss.wfink.eap71.playground.wildfly.client.MultipleServerWildFlyConfigURIClient
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/twoServers org.jboss.wfink.eap71.playground.wildfly.client.MultipleServerWildFlyConfigURIClient $CLIENT_ARGS
 
 echo
 echo " run UserTransactionClient with WildFlyInitialContext and wildfly-config.xml @8080 @8180 [user1]  -- testclient clients UserTransactionWildFlyConfigClient clients/WildFlyConfig/config/twoServers"
 echo "  should show stickyness for transaction for multiple servers not in HA mode"
 read -p "  run [y]? " yn
 echo
-[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/twoServers org.jboss.wfink.eap71.playground.wildfly.client.UserTransactionWildFlyConfigClient
+[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH:clients/WildFlyConfig/config/twoServers org.jboss.wfink.eap71.playground.wildfly.client.UserTransactionWildFlyConfigClient $CLIENT_ARGS

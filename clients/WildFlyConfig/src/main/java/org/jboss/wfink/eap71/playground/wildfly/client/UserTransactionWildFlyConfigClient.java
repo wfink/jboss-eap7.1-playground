@@ -5,7 +5,6 @@ package org.jboss.wfink.eap71.playground.wildfly.client;
 
 import java.util.HashSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.naming.Context;
@@ -20,7 +19,6 @@ import javax.transaction.UserTransaction;
 
 import org.jboss.wfink.eap71.playground.Simple;
 import org.jboss.wfink.eap71.playground.client.logging.AbstractLoggerMain;
-import org.wildfly.naming.client.WildFlyInitialContext;
 import org.wildfly.naming.client.WildFlyInitialContextFactory;
 
 /**
@@ -36,7 +34,7 @@ public class UserTransactionWildFlyConfigClient extends AbstractLoggerMain {
 	private static final Logger log = Logger.getLogger(UserTransactionWildFlyConfigClient.class.getName());
 	
 	public static void main(String[] args) throws NamingException, NotSupportedException, SystemException {
-		checkArgs(new String[] {"-log","2229"});
+		checkArgs(args);
 
 		// Set I_C_F with properties and use wildfly-config.xml to set the server URI and credentials
 		Properties p = new Properties();
