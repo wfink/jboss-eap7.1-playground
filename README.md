@@ -98,6 +98,54 @@ Add the remote outbound connection via CLI to the mainNode:
     /subsystem=remoting/remote-outbound-connection=remote-ejb-connection/property=SSL_ENABLED:add(value=false)
 
 
+Test remote-oubound-connections with user forwarding
+----------------------------------------------------
+
+   Since 7.1 it is possible to use Elytron to forward the user to the backend server.
+   See documentation and https://access.redhat.com/solutions/3166981
+   Note that the configuration use a "connectionUser" with cleartext password (here 'connectionUser') to secure the connection.
+   But the user shown in the application is forwarded from the client-server.
+
+   1) Add the client configuration for elytron to forward the security
+ 
+      bin/jboss-cli.sh -c --controller=localhost:9990
+
+      ?NOT NEEDED? /subsystem=ejb3/application-security-domain=other:add(security-domain=ApplicationDomain)
+
+      /subsystem=elytron/authentication-configuration=forwardit:add(authentication-name=connectionUser, security-domain=ApplicationDomain, forwarding-mode=authorization, realm=ApplicationRealm, credential-reference={clear-text=connectionUser!})
+      /subsystem=elytron/authentication-context=forwardctx:add(match-rules=[{match-no-user=true,authentication-configuration=forwardit}])
+      /subsystem=elytron:write-attribute(name=default-authentication-context, value=forwardctx)
+
+      ??? NOT NEEDED  simple-permission mapper ????
+
+      /subsystem=remoting/http-connector=http-remoting-connector:write-attribute(name=sasl-authentication-factory, value=application-sasl-authentication)
+
+      ?NOT NEEDED?  /subsystem=undertow/application-security-domain=other:add(http-authentication-factory=application-http-authentication)
+
+
+   2) Add the server configuration for ejb/elytron to handle the security forwarding
+
+      bin/jboss-cli.sh -c --controller=localhost:10990
+      ?NOT NEEDED? /subsystem=ejb3/application-security-domain=other:add(security-domain=ApplicationDomain)
+
+      ?NOT NEEDED  to delete: mapping-mode=first?
+
+      /subsystem=elytron/simple-permission-mapper=default-permission-mapper:list-add(index=0, name=permission-mappings,\
+        value={principals=[connectionUser],\
+        permissions=[{class-name=org.wildfly.security.auth.permission.RunAsPrincipalPermission, target-name=*},\
+          {class-name=org.wildfly.security.auth.permission.LoginPermission},\
+          {class-name=org.wildfly.extension.batch.jberet.deployment.BatchPermission, module=org.wildfly.extension.batch.jberet, target-name=*},\
+          {class-name=org.wildfly.transaction.client.RemoteTransactionPermission, module=org.wildfly.transaction.client},\
+          {class-name=org.jboss.ejb.client.RemoteEJBPermission, module=org.jboss.ejb-client}\
+        ]})
+
+      /subsystem=remoting/http-connector=http-remoting-connector:write-attribute(name=sasl-authentication-factory, value=application-sasl-authentication)
+
+      ?NOT NEEDED?  /subsystem=undertow/application-security-domain=other:add(http-authentication-factory=application-http-authentication)
+
+
+
+
 Enable client side logging
 ---------------------------
 
