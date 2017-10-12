@@ -9,12 +9,14 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import org.jboss.wfink.eap71.playground.client.logging.AbstractLoggerMain;
 import org.jboss.wfink.eap71.playground.Simple;
 
-public class LegacyClusterJBossEjbClient {
+public class LegacyClusterJBossEjbClient extends AbstractLoggerMain {
 	private static final Logger log = Logger.getLogger(LegacyClusterJBossEjbClient.class.getName());
 
 	public static void main(String[] args) throws NamingException {
+		checkArgs(args);
 		final Hashtable<String, String> jndiProperties = new Hashtable<>();
 		jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
 		final Context ic = new InitialContext(jndiProperties);

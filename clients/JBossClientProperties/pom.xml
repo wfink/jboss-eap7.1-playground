@@ -65,6 +65,11 @@
             <type>ejb-client</type>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+        	<groupId>org.jboss.wfink.eap-71.playground</groupId>
+        	<artifactId>eap71-playground-clients-common</artifactId>
+        	<version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
