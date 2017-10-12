@@ -9,8 +9,12 @@ else
   JAVACMD="$JAVA_HOME/bin/java"
 fi
 
-CLASSPATH="clients/JBossClientProperties/target/eap71-playground-clients-JBossEjbClientConfig.jar:server/ejb/target/eap71-playground-server-ejb-client.jar"
+CLASSPATH="clients/JBossClientProperties/target/eap71-playground-clients-JBossEjbClientConfig.jar"
+CLASSPATH="$CLASSPATH:clients/common/target/eap71-playground-clients-common.jar"
+CLASSPATH="$CLASSPATH:server/ejb/target/eap71-playground-server-ejb-client.jar"
 CLASSPATH="$CLASSPATH:$JBOSS_HOME/bin/client/jboss-client.jar"
+
+#BYTEMAN="-javaagent:/data/app/byteman-3.0.5/lib/byteman.jar=script:/home/wfink/examples/byteman/EJBClient.NodeSelectorTracking.btm,sys:/data/app/byteman-3.0.5/lib/byteman.jar"
 
 
 echo $CLASSPATH
@@ -66,3 +70,13 @@ echo "   this should be the case if the connected server is part of the cluster,
 read -p "  run with basic properties as user with two server URL test loadbalancing  [y] " yn
 echo
 [ "$yn" = "y" ] && $JAVACMD -cp ${CLASSPATH}:clients/JBossClientProperties/properties/twoServer org.jboss.wfink.eap71.playground.client.legacy.LegacyClusterJBossEjbClient $CLIENT_ARGS
+
+echo
+echo
+echo " run client with basic properties @8080 and user=user1 - JBossEJBClientConfig LegacyClusterJBossEjbClient"
+echo "   Try multiple invocations with only one initial connection and check whether there are multiple instances used"
+echo "   this should be the case if the connected server is part of the cluster, without cluster only one node is expected"
+read -p "  run [y]? " yn
+echo
+[ "$yn" = "y" ] && $JAVACMD -cp ${CLASSPATH}:clients/JBossClientProperties/properties/nodeSelector $BYTEMAN org.jboss.wfink.eap71.playground.client.legacy.LegacyClusterJBossEjbClient $CLIENT_ARGS
+

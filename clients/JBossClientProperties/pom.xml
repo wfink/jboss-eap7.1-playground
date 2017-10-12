@@ -38,6 +38,13 @@
         -->
         <dependency>
             <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-client-all</artifactId>
+            <!--- FIXME -->
+            <version>11.0.0.Final-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly</groupId>
             <artifactId>wildfly-naming-client</artifactId>
             <scope>compile</scope>
         </dependency>
