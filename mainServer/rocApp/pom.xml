@@ -30,5 +30,6 @@
     <modules>
         <module>ejb</module>
         <module>ear</module>
+        <module>earNodeSelector</module>
     </modules>
 </project>

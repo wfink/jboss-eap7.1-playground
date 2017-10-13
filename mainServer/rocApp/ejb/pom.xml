@@ -45,6 +45,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- dependency for the NodeSelector implementation -->
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-ejb-client</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>eap71-playground-server-ejb</artifactId>
@@ -53,9 +60,9 @@
         </dependency>
         <!-- needed because references for WildFlyInitialContextFactory are used -->
         <dependency>
-        	<groupId>org.wildfly</groupId>
-        	<artifactId>wildfly-naming-client</artifactId>
-        	<scope>provided</scope>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-naming-client</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

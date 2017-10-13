@@ -47,3 +47,15 @@ echo "  expect no error, as the transaction should stick to one node if active t
 read -p "  run server2server with remote-outbound-connection  [yn] " yn
 echo
 [ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.CheckDelegateTxROCClient $CLIENT_ARGS
+
+echo
+echo
+echo " run server2server with remote-outbound-connectin and node selector applied - Server2Server LegacyS2SwithNodeSelectorClient"
+echo "   Try multiple invocations from server to server and check whether the NodeSelection is working for deployment and cluster node selector"
+echo "   for the first invocation after startup or no cluster environment the DeplymentNodeSelector is expected to work"
+echo "   for cluster environment the cluster node selection should be used after the first initial invocation"
+echo "   check manually the mainServer logfile"
+read -p "  run [y]? " yn
+echo
+[ "$yn" = "y" ] && $JAVACMD -cp ${CLASSPATH} org.jboss.wfink.eap71.playground.client.DelegateROCwithNodeSelectorClient $CLIENT_ARGS
+

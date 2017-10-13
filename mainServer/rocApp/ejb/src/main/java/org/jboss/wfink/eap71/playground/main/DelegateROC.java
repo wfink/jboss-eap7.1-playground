@@ -53,4 +53,6 @@ public interface DelegateROC {
 			throws NamingException;
 
 	void checkTransactionStickyness();
+
+	void checkMultipleInvocations() throws NamingException;
 }

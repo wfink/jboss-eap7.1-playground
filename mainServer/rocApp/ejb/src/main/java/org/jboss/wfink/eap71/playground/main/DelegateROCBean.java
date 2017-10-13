@@ -85,6 +85,19 @@ public class DelegateROCBean implements DelegateROC {
         return;
     }
 
+    @PermitAll
+    @Override
+    public void checkMultipleInvocations() throws NamingException {
+    	HashSet<String> servers = new HashSet<String>();
+    	
+    	for(int i = 0 ; i <10 ; i++) {
+    		final String server = proxy.getJBossServerName();
+    		log.fine("Invocation routed to server " + server);
+    		servers.add(server);
+    	}
+    	log.info("Invocations routed to the following servers : " + servers);
+    }
+    
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @PermitAll
     @Override
