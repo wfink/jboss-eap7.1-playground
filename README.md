@@ -98,6 +98,12 @@ Add the remote outbound connection via CLI to the mainNode:
     /subsystem=remoting/remote-outbound-connection=remote-ejb-connection/property=SSL_ENABLED:add(value=false)
 
 
+copy the application to mainNode
+
+    cp mainServer/rocApp/ear/target/EAP71-PLAYGROUND-MainServer-rocApp.ear JBOSS_HOME/mainNode/deployments
+
+
+
 Test remote-oubound-connections with user forwarding
 ----------------------------------------------------
 
