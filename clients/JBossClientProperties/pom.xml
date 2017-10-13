@@ -33,16 +33,10 @@
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>
         </dependency>
+
         <!-- client API for wildfly or EAP7.1+
              Artifact "wildfly-client-all" will import the uber-jar
         -->
-        <dependency>
-            <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-client-all</artifactId>
-            <!--- FIXME -->
-            <version>11.0.0.Final-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
         <dependency>
             <groupId>org.wildfly</groupId>
             <artifactId>wildfly-naming-client</artifactId>
@@ -58,7 +52,8 @@
         <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>jboss-ejb-client</artifactId>
-            <scope>runtime</scope>
+            <!-- dependency for the NodeSelector implementation -->
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
