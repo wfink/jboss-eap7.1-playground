@@ -51,7 +51,6 @@ public class TestNodeSelector implements DeploymentNodeSelector, ClusterNodeSele
       final int randomSelection = random.nextInt(nodes.length);
       node = nodes[randomSelection];
     }
-    log.tracef("choosed node : %s", node);
     return node;
   }
 
@@ -59,13 +58,13 @@ public class TestNodeSelector implements DeploymentNodeSelector, ClusterNodeSele
   public String selectNode(String[] eligibleNodes, String appName, String moduleName, String distinctName) {
     String node = null;
 
-    if(log.isDebugEnabled()) {
-      log.debugf("selectNode for application = %s modul = %s distinctName = %s nodes [%s]", appName, moduleName, distinctName, Arrays.deepToString(eligibleNodes));
+    if(log.isTraceEnabled()) {
+      log.tracef("selectNode for application = %s modul = %s distinctName = %s nodes [%s]", appName, moduleName, distinctName, Arrays.deepToString(eligibleNodes));
     }
 
     node = choosePreferredNode(eligibleNodes);
 
-    log.debugf("select node %s for app %s out of %s", node, appName, Arrays.deepToString(eligibleNodes));
+    log.debugf("selected node is %s for app %s out of %s", node, appName, Arrays.deepToString(eligibleNodes));
     return node;
   }
 
@@ -73,13 +72,13 @@ public class TestNodeSelector implements DeploymentNodeSelector, ClusterNodeSele
   public String selectNode(final String clusterName, final String[] connectedNodes, final String[] availableNodes) {
     String node = null;
 
-    if(log.isDebugEnabled()) {
-      log.debugf("selectNode for cluster = %s connected nodes [%s] available nodes [%s]", clusterName, Arrays.deepToString(connectedNodes), Arrays.deepToString(availableNodes));
+    if(log.isTraceEnabled()) {
+      log.tracef("selectNode for cluster = %s connected nodes [%s] available nodes [%s]", clusterName, Arrays.deepToString(connectedNodes), Arrays.deepToString(availableNodes));
     }
 
     node = choosePreferredNode(availableNodes);
 
-    log.debugf("select node %s for cluster %s out of %s", node, clusterName, Arrays.deepToString(availableNodes));
+    log.debugf("selected node is %s for cluster %s out of %s", node, clusterName, Arrays.deepToString(availableNodes));
     return node;
   }
 }

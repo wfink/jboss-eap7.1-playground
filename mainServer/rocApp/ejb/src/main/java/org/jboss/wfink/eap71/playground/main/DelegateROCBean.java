@@ -85,6 +85,8 @@ public class DelegateROCBean implements DelegateROC {
         return;
     }
 
+    // prevent transactions to have load balancing
+    @TransactionAttribute(TransactionAttributeType.NEVER)
     @PermitAll
     @Override
     public void checkMultipleInvocations() throws NamingException {

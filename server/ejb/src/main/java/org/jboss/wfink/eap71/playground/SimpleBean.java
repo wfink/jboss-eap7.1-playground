@@ -100,7 +100,7 @@ public class SimpleBean implements Simple {
         	log.warning("Given user name '" + userName + "' not equal to real use name '" + caller.getName() + "'");
         	return false;
         }else{
-        	log.fine("SimpleBean invoked with expected user '" + userName + "'");
+        	log.info("SimpleBean invoked with expected user '" + userName + "'");
             return true;
         }
     }

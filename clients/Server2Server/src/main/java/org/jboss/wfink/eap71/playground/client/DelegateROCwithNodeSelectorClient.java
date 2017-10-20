@@ -30,7 +30,7 @@ public class DelegateROCwithNodeSelectorClient extends AbstractLoggerMain {
 			proxy.checkMultipleInvocations();
 			log.info("check multiple invocations with remote-outbound-connections -check logfiles according to the test case!");
 		} catch (Exception e) {
-			log.severe("Not expected to fail" + e.getMessage());
+			log.severe("Not expected to fail " + e.getMessage());
 			e.printStackTrace();
 		}
 	}

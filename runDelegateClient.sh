@@ -18,14 +18,14 @@ CLASSPATH="$CLASSPATH:$JBOSS_HOME/bin/client/jboss-client.jar"
 echo $CLASSPATH
 
 echo
-echo " use server2server invocation by having a dedicated InitialContext with properties"
+echo " use server2server invocation by having a dedicated InitialContext with properties  - Server2Server DelegateClient"
 echo " the call check the user  'delegateUser' -> 'delegateUserR'"
 read -p  "  run [yn]? " yn
 echo
 [ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.DelegateClient $CLIENT_ARGS
 
 echo
-echo " run server2server with dedicated connection and transaction from mainServer to Node"
+echo " run server2server with dedicated connection and transaction from mainServer to Node  - Server2Server CheckDelegateTxClient"
 echo " there are a successful invocation and a setRollbackOnly and RuntimeException on each node"
 echo " Check must be manual!"
 read -p "  run [yn]? " yn
@@ -34,9 +34,10 @@ echo
 
 echo
 echo "  run server2server invocation with remote-outbound-connection without Transaction"
-echo "  the expected user is 'delegateUser' as it should propagated to the backend"
+echo "  the expected user is 'connectionUser' if the r-o-c is the legacy simple with a user setting for the connection"
+echo "  the expected user is 'delegateUser' as it should propagated to the backend -- this is with the Elytron authentication-configuration applied!!"
 echo "  if there is a cluster it is expected that that invocations are load-balanced"
-echo "  expect no error"
+echo "  expect no error; see node1/node2 server log"
 read -p "  run [yn]? " yn
 echo
 [ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.DelegateROCClient $CLIENT_ARGS
@@ -50,9 +51,9 @@ echo
 
 echo
 echo
-echo " run server2server with remote-outbound-connectin and node selector applied - Server2Server LegacyS2SwithNodeSelectorClient"
+echo " run server2server with remote-outbound-connectin and node selector applied - Server2Server DelegateROCwithNodeSelectorClient"
 echo "   Try multiple invocations from server to server and check whether the NodeSelection is working for deployment and cluster node selector"
-echo "   for the first invocation after startup or no cluster environment the DeplymentNodeSelector is expected to work"
+echo "   for the first invocation after startup or no cluster environment the DeploymentNodeSelector is expected to work"
 echo "   for cluster environment the cluster node selection should be used after the first initial invocation"
 echo "   check manually the mainServer logfile"
 read -p "  run [y]? " yn

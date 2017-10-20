@@ -15,7 +15,7 @@
     limitations under the License.
 -->
 <jboss-ejb-client xmlns:xsi="urn:jboss:ejb-client:1.2" xsi:noNamespaceSchemaLocation="jboss-ejb-client_1_2.xsd">
-    <client-context deployment-node-selector="org.jboss.wfink.eap71.playground.main.DelegateTestNodeSelectorX">
+    <client-context deployment-node-selector="org.jboss.wfink.eap71.playground.main.DelegateTestNodeSelector">
         <ejb-receivers>
             <remoting-ejb-receiver outbound-connection-ref="remote-ejb-connection" />
         </ejb-receivers>

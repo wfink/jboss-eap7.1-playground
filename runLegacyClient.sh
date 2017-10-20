@@ -74,8 +74,8 @@ echo
 echo
 echo
 echo " run client with basic properties @8080 and user=user1 - JBossEJBClientConfig LegacyClusterJBossEjbClient"
-echo "   Try multiple invocations with only one initial connection and check whether there are multiple instances used"
-echo "   this should be the case if the connected server is part of the cluster, without cluster only one node is expected"
+echo "   Try multiple invocations with only one initial connection and check whether the NodeSelector is used"
+echo "   if a cluster is connected the Deployment- and ClusterNodeSelector must be used"
 read -p "  run [y]? " yn
 echo
 [ "$yn" = "y" ] && $JAVACMD -cp ${CLASSPATH}:clients/JBossClientProperties/properties/nodeSelector $BYTEMAN org.jboss.wfink.eap71.playground.client.legacy.LegacyClusterJBossEjbClient $CLIENT_ARGS
