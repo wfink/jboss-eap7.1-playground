@@ -104,7 +104,7 @@ public class DelegateROCBean implements DelegateROC {
     @PermitAll
     @Override
     public void checkTransactionBehaviour(boolean setLocalRollbackOnly, boolean throwLocalException, boolean setRemoteRollbackOnly, boolean throwRemoteException, boolean expectedToCommit) throws NamingException {
-        txRegistry.registerInterposedSynchronization(new TxSyncInterceptor(setLocalRollbackOnly|setRemoteRollbackOnly));
+        txRegistry.registerInterposedSynchronization(new TxSyncInterceptor(!expectedToCommit));
 
     	proxy.checkTransactionContext(setRemoteRollbackOnly, throwRemoteException, expectedToCommit);
     	

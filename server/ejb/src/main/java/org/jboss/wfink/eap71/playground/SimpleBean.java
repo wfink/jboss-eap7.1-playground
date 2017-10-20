@@ -110,7 +110,7 @@ public class SimpleBean implements Simple {
     @Override
     public void checkTransactionContext(boolean setRollbackOnly, boolean throwException, boolean expectedToCommit) {
     	log.info("checkTransactionContext(" + setRollbackOnly + ", " + throwException + ", " + expectedToCommit + ") called");
-        txRegistry.registerInterposedSynchronization(new TxSyncInterceptor(setRollbackOnly));
+        txRegistry.registerInterposedSynchronization(new TxSyncInterceptor(!expectedToCommit));
 
     	if(setRollbackOnly) {
     		context.setRollbackOnly();
