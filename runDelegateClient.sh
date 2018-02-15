@@ -30,7 +30,18 @@ echo " there are a successful invocation and a setRollbackOnly and RuntimeExcept
 echo " Check must be manual!"
 read -p "  run [yn]? " yn
 echo
-[ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.CheckDelegateTxClient $CLIENT_ARGS
+if [ "$yn" = "y" ];then
+  read -p "successful - No Exception expected [yn]? " yn
+  [ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.CheckDelegateTxClient $CLIENT_ARGS 1
+  read -p "rollback on mainServer - No Exception expected [yn]? " yn
+  [ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.CheckDelegateTxClient $CLIENT_ARGS 2
+  read -p "RuntimeException on mainServer [yn]? " yn
+  [ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.CheckDelegateTxClient $CLIENT_ARGS 3
+  read -p " set rollback on backend [yn]? " yn
+  [ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.CheckDelegateTxClient $CLIENT_ARGS 4
+  read -p "RuntimeException on backend [yn]? " yn
+  [ "$yn" = "y" ] && $JAVACMD -cp $CLASSPATH org.jboss.wfink.eap71.playground.client.CheckDelegateTxClient $CLIENT_ARGS 5
+fi
 
 echo
 echo "  run server2server invocation with remote-outbound-connection without Transaction"
