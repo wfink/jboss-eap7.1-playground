@@ -3,7 +3,6 @@
  */
 package org.jboss.wfink.eap71.playground.client;
 
-import java.util.Date;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,10 +12,9 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import org.wildfly.naming.client.WildFlyInitialContextFactory;
-
 import org.jboss.wfink.eap71.playground.Simple;
 import org.jboss.wfink.eap71.playground.client.logging.AbstractLoggerMain;
+import org.wildfly.naming.client.WildFlyInitialContextFactory;
 
 /**
  * <p>Simple client to show ejb invocation</p>
