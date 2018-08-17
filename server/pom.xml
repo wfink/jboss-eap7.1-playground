@@ -29,6 +29,7 @@
 
     <modules>
         <module>ejb</module>
+        <module>ejbTwo</module>
         <module>ear</module>
     </modules>
 </project>

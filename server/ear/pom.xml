@@ -35,6 +35,12 @@
             <type>ejb</type>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>eap71-playground-server-ejbTwo</artifactId>
+            <type>ejb</type>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -53,6 +59,11 @@
                             <groupId>${project.groupId}</groupId>
                             <artifactId>eap71-playground-server-ejb</artifactId>
                             <bundleFileName>ejb.jar</bundleFileName>
+                        </ejbModule>
+                        <ejbModule>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>eap71-playground-server-ejbTwo</artifactId>
+                            <bundleFileName>ejbSingleton.jar</bundleFileName>
                         </ejbModule>
                     </modules>
                     <archive>
