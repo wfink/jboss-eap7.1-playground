@@ -37,6 +37,10 @@ You need to set JBOSS_HOME and maybe JAVA_HOME if needed.
    - Client using wildfly-config.xml, run script runWildFlyConfigClients.sh
    - Client using legacy property file jboss-ejb-client.properties, run script runLegacyClient.sh
 
+If the classes are used directly the server and credentials can be passed as arguments
+
+    -server host:port -user unsername -password psw
+
 
 
 Server configurations:

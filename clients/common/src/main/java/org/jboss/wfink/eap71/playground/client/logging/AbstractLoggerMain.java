@@ -14,6 +14,10 @@ import java.util.logging.Logger;
 public abstract class AbstractLoggerMain {
 	public static final Logger log = Logger.getLogger(AbstractLoggerMain.class.getName());
 	
+	protected static String server = "localhost:8080";
+	protected static String user = null;
+	protected static String passwd = null;
+	
 	static private void setLogging(int logging) {
 		Level logLevel = getLogLevel(logging%10);
 
@@ -73,12 +77,28 @@ public abstract class AbstractLoggerMain {
 				isLoggingSet = true;
 				break;
 
+			case "-server":
+				server = args[++i];
+				isLoggingSet = true;
+				break;
+
+			case "-user":
+				user = args[++i];
+				break;
+
+			case "-password":
+				passwd = args[++i];
+				break;
+
 			default:
 				newArgs.add(args[i]);
 			}
 		}
 		if(newArgs.size() > 0)
 			log.severe("not all arguments parsed " + newArgs);
+
+		if(user != null && passwd == null)
+			log.severe("User can not be set without password!");
 		
 		if(!isLoggingSet)
 			setLogging(9);

@@ -33,7 +33,11 @@ public class SimpleWildFlyInitialContextClient extends AbstractLoggerMain {
 		
 		Properties p = new Properties();
 		
-		p.put(Context.PROVIDER_URL, "http-remoting://localhost:8080");
+		p.put(Context.PROVIDER_URL, "http-remoting://" + AbstractLoggerMain.server);
+		if(AbstractLoggerMain.user != null) {
+			p.put(Context.SECURITY_PRINCIPAL, AbstractLoggerMain.user);
+			p.put(Context.SECURITY_CREDENTIALS, AbstractLoggerMain.passwd);
+		}
 		InitialContext ic = new WildFlyInitialContext(p);
 		
 		Simple proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());

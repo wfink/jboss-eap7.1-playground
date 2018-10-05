@@ -30,7 +30,7 @@ public class SimpleSecuredClient extends AbstractLoggerMain {
 		Properties p = new Properties();
 		
 		p.put(Context.INITIAL_CONTEXT_FACTORY, WildFlyInitialContextFactory.class.getName());
-		p.put(Context.PROVIDER_URL, "http-remoting://localhost:8080");
+		p.put(Context.PROVIDER_URL, "http-remoting://" + AbstractLoggerMain.server);
 		
 		
 		//  Invocation with an unknown user
@@ -41,11 +41,11 @@ public class SimpleSecuredClient extends AbstractLoggerMain {
 		
 		Simple proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
 		try {
-			log.info("Invocation of @PermitAll method");
+			log.info("Invocation of @PermitAll method with unknownUser");
 			proxy.checkApplicationUser("unknownUser");
-			log.warning("If there is a $local configuration (default) the invocation success is expected");
+			log.warning("SUCCSESS: If there is a $local configuration (default) and the invocation is to a local server success is expected");
 		} catch (Exception e) {
-			log.warning("If the $local configuration (default) is removed the invocation failure is expected");
+			log.warning("FAILED: If the $local configuration (default) is removed the invocation failure is expected");
 		}
 
 		// Invocations with a know user without roles

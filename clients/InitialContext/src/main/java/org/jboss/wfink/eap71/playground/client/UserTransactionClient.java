@@ -37,7 +37,7 @@ public class UserTransactionClient extends AbstractLoggerMain {
 		Properties p = new Properties();
 		
 		p.put(Context.INITIAL_CONTEXT_FACTORY, WildFlyInitialContextFactory.class.getName());
-		p.put(Context.PROVIDER_URL, "http-remoting://localhost:8080,http-remoting://localhost:8180");
+		p.put(Context.PROVIDER_URL, "http-remoting://" + AbstractLoggerMain.server + ",http-remoting://localhost:8180");
 		p.put(Context.SECURITY_PRINCIPAL, "user1");
 		p.put(Context.SECURITY_CREDENTIALS, "user1+");
 		InitialContext ic = new InitialContext(p);

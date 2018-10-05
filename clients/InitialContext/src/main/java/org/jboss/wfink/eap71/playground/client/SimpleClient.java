@@ -7,8 +7,7 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-import javax.ejb.EJBException;
-import javax.naming.Context;
+import javax.naming.Context;	
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
@@ -35,7 +34,12 @@ public class SimpleClient extends AbstractLoggerMain {
 		Properties p = new Properties();
 		
 		p.put(Context.INITIAL_CONTEXT_FACTORY, WildFlyInitialContextFactory.class.getName());
-		p.put(Context.PROVIDER_URL, "http-remoting://localhost:8080");
+		p.put(Context.PROVIDER_URL, "http-remoting://" + AbstractLoggerMain.server);
+		if(AbstractLoggerMain.user != null) {
+			p.put(Context.SECURITY_PRINCIPAL, AbstractLoggerMain.user);
+			p.put(Context.SECURITY_CREDENTIALS, AbstractLoggerMain.passwd);
+		}
+		log.fine("Properties:  " + p);
 		InitialContext ic = new InitialContext(p);
 		
 		Simple proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
