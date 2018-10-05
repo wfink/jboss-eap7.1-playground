@@ -69,6 +69,7 @@
         <module>server</module>
         <module>mainServer</module>
         <module>clients</module>
+        <module>ejb2App</module>
     </modules>
 
     <dependencyManagement>

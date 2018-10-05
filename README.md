@@ -172,3 +172,21 @@ and the number is the level
   9 ALL
 
 If not give it defaults to "-log 9" to show the messages from the test classes
+
+
+
+Test legacy EJB2 application
+----------------------------
+
+To test legacy EJB2 code, via Home interface.
+The application implement business and home interfaces according to the EJB2 specification. (no XDoclet is used to keep it simple)
+
+Copy the application to the server
+
+   cp ejb2App/simple/target/eap71-playground-legacy-ejb21-simple.jar EAP_HOME/standalone/deployments
+
+Run the following java command
+
+   java -cp $JBOSS_HOME/bin/client/jboss-client.jar:ejb2App/simple/target/eap71-playground-legacy-ejb21-simple-client.jar:ejb2App/simple/target/test-classes org.jboss.wfink.eap71.playground.ejb2.client.SimpleInvocationTest [hostIP] [port] [user] [passwd]
+
+by default no security is set and localhost:8080 is used, it is expected that the invocation to localhost should work if the $local configuration is there (by default)

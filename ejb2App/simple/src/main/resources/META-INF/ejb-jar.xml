@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE ejb-jar PUBLIC "-//Sun Microsystems, Inc.//DTD Enterprise JavaBeans 2.0//EN" "http://java.sun.com/dtd/ejb-jar_2_0.dtd">
+
+<ejb-jar >
+
+   <description><![CDATA[Simple legacy EJB2.1 application to run with EAP7.]]></description>
+   <display-name>Legacy EJB2.1 application</display-name>
+
+   <enterprise-beans>
+
+      <!-- Session Beans -->
+      <session >
+         <description><![CDATA[A SeesionBean as simple CMP example]]></description>
+         <display-name>Simple Session bean</display-name>
+
+         <ejb-name>SimpleSLS</ejb-name>
+
+         <home>org.jboss.wfink.eap71.playground.ejb2.SimpleSLSHome</home>
+         <remote>org.jboss.wfink.eap71.playground.ejb2.SimpleSLS</remote>
+         <ejb-class>org.jboss.wfink.eap71.playground.ejb2.SimpleSLSBean</ejb-class>
+         <session-type>Stateless</session-type>
+         <transaction-type>Container</transaction-type>
+
+         <ejb-local-ref >
+            <ejb-ref-name>local/SimpleCMPEntity</ejb-ref-name>
+            <ejb-ref-type>Session</ejb-ref-type>
+            <local-home>org.jboss.wfink.eap71.playground.ejb2.LocalSLSHome</local-home>
+            <local>org.jboss.wfink.eap71.playground.ejb2.LocalSLS</local>
+         </ejb-local-ref>
+
+      </session>
+
+      <session >
+         <description><![CDATA[A SessionBean as simple CMP example]]></description>
+         <display-name>Simple CMP1.1 Session bean</display-name>
+
+         <ejb-name>LocalSLSBean</ejb-name>
+
+         <local-home>org.jboss.wfink.eap71.playground.ejb2.LocalSLSHome</local-home>
+         <local>org.jboss.wfink.eap71.playground.ejb2.LocalSLS</local>
+         <ejb-class>org.jboss.wfink.eap71.playground.ejb2.LocalSLSBean</ejb-class>
+         <session-type>Stateless</session-type>
+         <transaction-type>Container</transaction-type>
+      </session>
+
+     <!--
+       To add session beans that you have deployment descriptor info for, add
+       a file to your XDoclet merge directory called session-beans.xml that contains
+       the <session></session> markup for those beans.
+     -->
+
+
+     <!--
+       To add entity beans that you have deployment descriptor info for, add
+       a file to your XDoclet merge directory called entity-beans.xml that contains
+       the <entity></entity> markup for those beans.
+     -->
+
+      <!-- Message Driven Beans -->
+     <!--
+       To add message driven beans that you have deployment descriptor info for, add
+       a file to your XDoclet merge directory called message-driven-beans.xml that contains
+       the <message-driven></message-driven> markup for those beans.
+     -->
+
+   </enterprise-beans>
+
+   <!-- Relationships -->
+
+   <!-- Assembly Descriptor -->
+     <!--
+       To specify your own assembly descriptor info here, add a file to your
+       XDoclet merge directory called assembly-descriptor.xml that contains
+       the <assembly-descriptor></assembly-descriptor> markup.
+     -->
+
+   <assembly-descriptor >
+     <!--
+       To specify additional security-role elements, add a file in the merge
+       directory called ejb-security-roles.xml that contains them.
+     -->
+
+   <!-- method permissions -->
+     <!--
+       To specify additional method-permission elements, add a file in the merge
+       directory called ejb-method-permissions.ent that contains them.
+     -->
+
+   <!-- transactions -->
+     <!--
+       To specify additional container-transaction elements, add a file in the merge
+       directory called ejb-container-transactions.ent that contains them.
+     -->
+   <container-transaction >
+      <method >
+         <ejb-name>SimpleSLS</ejb-name>
+          <method-name>*</method-name>
+       </method>
+       <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+   <container-transaction >
+      <method >
+         <ejb-name>LocalSLSBean</ejb-name>
+         <method-intf>Local</method-intf>
+         <method-name>*</method-name>
+      </method>
+      <trans-attribute>Supports</trans-attribute>
+   </container-transaction>
+
+   <!-- finder transactions -->
+
+   <!-- message destinations -->
+     <!--
+       To specify additional message-destination elements, add a file in the merge
+       directory called ejb-message-destinations.ent that contains them.
+     -->
+
+   <!-- exclude list -->
+     <!--
+       To specify an exclude-list element, add a file in the merge directory
+       called ejb-exclude-list.xml that contains it.
+     -->
+   </assembly-descriptor>
+
+</ejb-jar>
