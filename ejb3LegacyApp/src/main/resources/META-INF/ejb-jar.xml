@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+     The file is needed as the EJB3 bean is automatically deployed but the EJB2 interfaces need a descriptor to add the JNDI names.
+     For this the EJB3 bean SimpleEJB3SLSBean expose the legacy EBJ2 Home interface for EJB2 style clients
+-->
+<!DOCTYPE ejb-jar PUBLIC "-//Sun Microsystems, Inc.//DTD Enterprise JavaBeans 2.1//EN" "http://java.sun.com/dtd/ejb-jar_2_1.dtd">
+
+<ejb-jar >
+
+   <description><![CDATA[Simple EJB3 application with legacy EJB2.1 client interface to run with EAP7.]]></description>
+   <display-name>Legacy EJB2.1 client application</display-name>
+
+   <enterprise-beans>
+
+      <!-- Session Beans -->
+      <session >
+         <description><![CDATA[A SeesionBean as simple CMP example]]></description>
+         <display-name>Simple Session bean</display-name>
+
+         <ejb-name>SimpleLegacySLS</ejb-name>
+
+         <home>org.jboss.wfink.eap71.playground.legacy.SimpleSLSHome</home>
+         <remote>org.jboss.wfink.eap71.playground.legacy.SimpleSLS</remote>
+         <ejb-class>org.jboss.wfink.eap71.playground.legacy.ejb3.SimpleEJB3SLSBean</ejb-class>
+         <session-type>Stateless</session-type>
+         <transaction-type>Container</transaction-type>
+      </session>
+   </enterprise-beans>
+
+   <!-- Relationships -->
+
+   <!-- Assembly Descriptor -->
+   <assembly-descriptor >
+   <!-- transactions -->
+     <!--
+       To specify additional container-transaction elements, add a file in the merge
+       directory called ejb-container-transactions.ent that contains them.
+     -->
+   <container-transaction >
+      <method >
+         <ejb-name>SimpleSLS</ejb-name>
+          <method-name>*</method-name>
+       </method>
+       <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+   </assembly-descriptor>
+
+</ejb-jar>
