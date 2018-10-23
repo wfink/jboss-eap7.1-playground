@@ -23,6 +23,7 @@ import org.wildfly.naming.client.WildFlyInitialContextFactory;
  */
 public class SimpleSecuredClient extends AbstractLoggerMain {
 	private static final Logger log = Logger.getLogger(SimpleSecuredClient.class.getName());
+        private static final String SIMPLE_BEAN_LOOKUP = "ejb:EAP71-PLAYGROUND-server/ejbOne/SimpleBean!" + Simple.class.getName();
 	
 	public static void main(String[] args) throws NamingException {
 		checkArgs(args);
@@ -39,7 +40,7 @@ public class SimpleSecuredClient extends AbstractLoggerMain {
 		p.put(Context.SECURITY_CREDENTIALS, "no");
 		InitialContext ic = new InitialContext(p);
 		
-		Simple proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
+		Simple proxy = (Simple) ic.lookup(SIMPLE_BEAN_LOOKUP);
 		try {
 			log.info("Invocation of @PermitAll method with unknownUser");
 			proxy.checkApplicationUser("unknownUser");
@@ -55,7 +56,7 @@ public class SimpleSecuredClient extends AbstractLoggerMain {
 		ic = new InitialContext(p);
 
 		// !! new lookup is needed, otherwise the old context will be used !!
-		proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
+		proxy = (Simple) ic.lookup(SIMPLE_BEAN_LOOKUP);
 		try {
 			log.info("Invocation of @PermitAll method");
 			if(proxy.checkApplicationUser("user1")) {
@@ -89,7 +90,7 @@ public class SimpleSecuredClient extends AbstractLoggerMain {
 		ic = new InitialContext(p);
 		
 		// !! new lookup is needed, otherwise the old context will be used !!
-		proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
+		proxy = (Simple) ic.lookup(SIMPLE_BEAN_LOOKUP);
 		
 		try {
 			log.info("Invocation of @RoleAllowed(Admin) method with correct role assigned");

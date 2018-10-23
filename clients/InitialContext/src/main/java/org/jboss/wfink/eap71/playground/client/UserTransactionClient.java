@@ -42,7 +42,7 @@ public class UserTransactionClient extends AbstractLoggerMain {
 		p.put(Context.SECURITY_CREDENTIALS, "user1+");
 		InitialContext ic = new InitialContext(p);
 		
-		final String lookup = "ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName();
+		final String lookup = "ejb:EAP71-PLAYGROUND-server/ejbOne/SimpleBean!" + Simple.class.getName();
 		Simple proxy = (Simple) ic.lookup(lookup);
 		log.fine("Proxy is : " + proxy);
 		

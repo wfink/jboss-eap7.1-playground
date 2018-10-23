@@ -40,7 +40,7 @@ public class SimpleWildFlyInitialContextClient extends AbstractLoggerMain {
 		}
 		InitialContext ic = new WildFlyInitialContext(p);
 		
-		Simple proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
+		Simple proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejbOne/SimpleBean!" + Simple.class.getName());
 		
 		try {
 			proxy.logText("Simple invocation without security at " + new Date());

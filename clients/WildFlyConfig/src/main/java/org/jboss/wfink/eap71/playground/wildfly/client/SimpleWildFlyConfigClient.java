@@ -36,7 +36,7 @@ public class SimpleWildFlyConfigClient extends AbstractLoggerMain {
 		// the URI and credentials by wildfly-config.xml
 		InitialContext ic = new InitialContext();
 
-		Simple proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
+		Simple proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejbOne/SimpleBean!" + Simple.class.getName());
 		
 		try {
 			if(proxy.checkApplicationUser("user1")) {

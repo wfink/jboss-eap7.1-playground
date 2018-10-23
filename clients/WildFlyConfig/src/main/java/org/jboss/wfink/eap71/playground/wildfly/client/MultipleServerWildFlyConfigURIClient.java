@@ -35,7 +35,7 @@ public class MultipleServerWildFlyConfigURIClient extends AbstractLoggerMain {
 		p.put(Context.INITIAL_CONTEXT_FACTORY, WildFlyInitialContextFactory.class.getName());
 		InitialContext ic = new InitialContext(p);
 		
-		Simple proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
+		Simple proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejbOne/SimpleBean!" + Simple.class.getName());
 		log.fine("Proxy is : " + proxy);
 		
 		HashSet<String> serverList = new HashSet<>();

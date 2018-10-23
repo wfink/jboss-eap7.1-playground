@@ -42,7 +42,7 @@ public class UserTransactionWildFlyConfigClient extends AbstractLoggerMain {
 		InitialContext ic = new InitialContext(p);
 		HashSet<String> serverList = new HashSet<>();
 
-		Simple proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
+		Simple proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejbOne/SimpleBean!" + Simple.class.getName());
 
 		try {
 			for (int i = 0; i < 20; i++) {

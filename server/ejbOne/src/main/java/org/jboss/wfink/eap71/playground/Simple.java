@@ -65,4 +65,8 @@ public interface Simple {
 	void checkTransactionContext(boolean setRollbackOnly, boolean throwException, boolean expectedToCommit);
 
 	String getJBossServerNameInRunningTx();
+
+	void checkCallByReferenceLocal();
+
+	void checkCallByReferenceRemote();
 }

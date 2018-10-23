@@ -46,7 +46,7 @@ public class MultipleServerProviderURLClient extends AbstractLoggerMain {
 		}
 		InitialContext ic = new InitialContext(p);
 		
-		final String lookup = "ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName();
+		final String lookup = "ejb:EAP71-PLAYGROUND-server/ejbOne/SimpleBean!" + Simple.class.getName();
 		Simple proxy = (Simple) ic.lookup(lookup);
 		log.fine("Proxy after lookup is : " + proxy);
 		

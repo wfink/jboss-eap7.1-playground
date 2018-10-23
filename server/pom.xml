@@ -28,7 +28,9 @@
     <name>JBoss EAP 7.1 Playground: server application</name>
 
     <modules>
-        <module>ejb</module>
+        <module>ejbTwoApi</module>
+        <module>ejbTwo</module>
+        <module>ejbOne</module>
         <module>ear</module>
     </modules>
 </project>

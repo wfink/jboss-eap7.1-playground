@@ -21,7 +21,7 @@ public class LegacyClusterJBossEjbClient extends AbstractLoggerMain {
 		jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
 		final Context ic = new InitialContext(jndiProperties);
 
-		Simple proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
+		Simple proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejbOne/SimpleBean!" + Simple.class.getName());
 
 		HashSet<String> serverList = new HashSet<>();
 

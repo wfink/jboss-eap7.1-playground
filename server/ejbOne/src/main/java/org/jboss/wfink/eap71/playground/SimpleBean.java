@@ -19,15 +19,14 @@ package org.jboss.wfink.eap71.playground;
 import java.security.Principal;
 import java.util.logging.Logger;
 
-import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-import javax.naming.NamingException;
 import javax.transaction.TransactionSynchronizationRegistry;
 
 import org.jboss.ejb3.annotation.SecurityDomain;
@@ -47,6 +46,13 @@ public class SimpleBean implements Simple {
     @Resource
     TransactionSynchronizationRegistry txRegistry;
 
+    @EJB
+    CallByReferenceLocalTest localBean;
+    
+//    @EJB(beanName = "CallByRemoteTestBean", beanInterface = org.jboss.wfink.eap71.playground.CallByRemoteTest.class)
+    @EJB
+    CallByRemoteTest remoteBean;
+    
     @Override
     @PermitAll
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
@@ -121,4 +127,40 @@ public class SimpleBean implements Simple {
     	}
     	return;
     }
+    
+    @PermitAll
+    @Override
+	public void checkCallByReferenceLocal() {
+		DataObject data = new DataObject("No Panic", 0);
+		localBean.changeValuesOfReference(data);
+		if (data.aNumber == 42 && data.aString.equals("No Panic this is call by value and the caller should see the change")) {
+			log.info("Data object is changes as expected as the local interface uses call-by-reference");
+		} else {
+			throw new RuntimeException("Unexpected call by value instead of call by reference!");
+		}
+
+		data = new DataObject("No Panic", 0);
+		DataObject ref = localBean.returnReferencedDataObject(data);
+		if (data == ref) {
+			log.info("Data object reference is the same as expected as the local interface uses call-by-reference");
+		} else {
+			throw new RuntimeException("Unexpected object reference returned!");
+		}
+}
+
+    @PermitAll
+	@Override
+	public void checkCallByReferenceRemote() {
+		DataObject data = new DataObject("No Panic", 0);
+		log.info("DATA: " + data);
+		remoteBean.changeValuesOf(data);
+		log.info("DATA: " + data);
+		if (data.aNumber == 42 || data.aString.equals("Panic if the setting is call by value")) {
+			log.warning("Check whether the setting is 'call by reference' in this case this is expected");
+		} else if (data.aNumber == 0 && data.aString.equals("No Panic")) {
+			log.warning("Check whether the setting is 'call by value' in this case this is expected");
+		} else {
+			throw new RuntimeException("Complete unexpected result!");
+		}
+	}
 }

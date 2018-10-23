@@ -42,7 +42,7 @@ public class LegacyMultipleServerRemoteNamingClient extends AbstractLoggerMain {
 		p.put("jboss.naming.client.ejb.context", true);
 		InitialContext ic = new InitialContext(p);
 		
-		final String lookup = "EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName();
+		final String lookup = "EAP71-PLAYGROUND-server/ejbOne/SimpleBean!" + Simple.class.getName();
 		Simple proxy = (Simple) ic.lookup(lookup);
 		log.fine("Proxy after lookup is : " + proxy);
 		

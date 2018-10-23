@@ -31,8 +31,20 @@
         <!-- add the EJB project as dependency to include it in the EAR -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>eap71-playground-server-ejb</artifactId>
+            <artifactId>eap71-playground-server-ejbOne</artifactId>
             <type>ejb</type>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>eap71-playground-server-ejbTwo</artifactId>
+            <type>ejb</type>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>eap71-playground-server-ejbTwoApi</artifactId>
+            <type>jar</type>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
@@ -51,9 +63,20 @@
                     <modules>
                         <ejbModule>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>eap71-playground-server-ejb</artifactId>
-                            <bundleFileName>ejb.jar</bundleFileName>
+                            <artifactId>eap71-playground-server-ejbOne</artifactId>
+                            <bundleFileName>ejbOne.jar</bundleFileName>
                         </ejbModule>
+                        <ejbModule>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>eap71-playground-server-ejbTwo</artifactId>
+                            <bundleFileName>ejbTwo.jar</bundleFileName>
+                        </ejbModule>
+                        <jarModule>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>eap71-playground-server-ejbTwoApi</artifactId>
+                            <bundleFileName>ejbTwoAPI.jar</bundleFileName>
+                            <bundleDir>lib</bundleDir>
+                        </jarModule>
                     </modules>
                     <archive>
                         <addMavenDescriptor>false</addMavenDescriptor>

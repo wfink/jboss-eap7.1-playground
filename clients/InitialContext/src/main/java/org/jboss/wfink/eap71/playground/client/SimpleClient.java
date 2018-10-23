@@ -42,11 +42,13 @@ public class SimpleClient extends AbstractLoggerMain {
 		log.fine("Properties:  " + p);
 		InitialContext ic = new InitialContext(p);
 		
-		Simple proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
+		Simple proxy = (Simple) ic.lookup("ejb:EAP71-PLAYGROUND-server/ejbOne/SimpleBean!" + Simple.class.getName());
 		
 		try {
 			proxy.logText("Simple invocation without security at " + new Date());
 			log.info("Expected to work with the default configuration, to get a security failure remote the <local> element from the ApplicationRealm!");
+			proxy.checkCallByReferenceRemote();
+			proxy.checkCallByReferenceLocal();
 		} catch (Exception e) {
 			log.severe("Expected to fail if no <local> configuration in ApplicationRealm, unfortunately no good Exception");
 			e.printStackTrace();

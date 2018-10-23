@@ -82,7 +82,7 @@ public class DelegateBean implements Delegate {
     		p.put(Context.SECURITY_CREDENTIALS, remoteUserName);
 
         	InitialContext ic = new InitialContext(p);
-        	Simple localProxy = (Simple)ic.lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
+        	Simple localProxy = (Simple)ic.lookup("ejb:EAP71-PLAYGROUND-server/ejbOne/SimpleBean!" + Simple.class.getName());
         	if (!localProxy.checkApplicationUser(remoteUserName)) {
         		log.severe("Remote bean was not invoked with the correct user!");
         		throw new RuntimeException("Remote bean was not invoked with the correct user!");
@@ -104,7 +104,7 @@ public class DelegateBean implements Delegate {
 		p.put(Context.SECURITY_CREDENTIALS, "delegateUser");
 
     	InitialContext ic = new InitialContext(p);
-    	Simple localProxy = (Simple)ic.lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
+    	Simple localProxy = (Simple)ic.lookup("ejb:EAP71-PLAYGROUND-server/ejbOne/SimpleBean!" + Simple.class.getName());
     	
         //TransactionSynchronizationRegistry txRegistry = (TransactionSynchronizationRegistry) context.lookup("java:jboss/TransactionSynchronizationRegistry");
         txRegistry.registerInterposedSynchronization(new TxSyncInterceptor(setLocalRollbackOnly|setRemoteRollbackOnly));

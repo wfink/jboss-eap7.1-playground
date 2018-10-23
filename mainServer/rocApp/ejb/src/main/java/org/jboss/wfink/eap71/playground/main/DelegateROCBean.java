@@ -51,7 +51,7 @@ public class DelegateROCBean implements DelegateROC {
     @Resource
     TransactionSynchronizationRegistry txRegistry;
 
-    @EJB(lookup = "ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!org.jboss.wfink.eap71.playground.Simple")
+    @EJB(lookup = "ejb:EAP71-PLAYGROUND-server/ejbOne/SimpleBean!org.jboss.wfink.eap71.playground.Simple")
     Simple proxy;
 
     @Override
@@ -74,7 +74,7 @@ public class DelegateROCBean implements DelegateROC {
         }else{
         	log.info("Try to invoke remote SimpleBean with user '" + userName + "' " + invocations + " times");
         	try {
-				Simple proxy = (Simple)new InitialContext().lookup("ejb:EAP71-PLAYGROUND-server/ejb/SimpleBean!" + Simple.class.getName());
+				Simple proxy = (Simple)new InitialContext().lookup("ejb:EAP71-PLAYGROUND-server/ejbOne/SimpleBean!" + Simple.class.getName());
 				for(int i = 0 ; i < invocations ; i++) {
 					proxy.checkApplicationUser(userName);
 				}

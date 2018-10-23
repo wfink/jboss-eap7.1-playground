@@ -56,7 +56,7 @@
                         </ejbModule>
                         <ejbClientModule>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>eap71-playground-server-ejb</artifactId>
+                            <artifactId>eap71-playground-server-ejbOne</artifactId>
                             <bundleDir>lib</bundleDir>
                         </ejbClientModule>
 
